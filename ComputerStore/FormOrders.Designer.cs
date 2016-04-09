@@ -1,4 +1,6 @@
-﻿namespace ComputerStore
+﻿using System.Windows.Forms;
+
+namespace ComputerStore
 {
     partial class FormOrders
     {
@@ -44,7 +46,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.gvOrderItems = new System.Windows.Forms.DataGridView();
+            this.btnFirstOrderItems = new System.Windows.Forms.Button();
+            this.btnPreviousOrderItems = new System.Windows.Forms.Button();
+            this.btnNextOrderItems = new System.Windows.Forms.Button();
+            this.btnLastOrderItems = new System.Windows.Forms.Button();
+            this.btnDeleteOrderItems = new System.Windows.Forms.Button();
+            this.btnEditOrderItems = new System.Windows.Forms.Button();
+            this.btnDetailsOrderItems = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrders)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvOrderItems)).BeginInit();
             this.SuspendLayout();
             // 
             // gvOrders
@@ -52,8 +63,11 @@
             this.gvOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvOrders.Location = new System.Drawing.Point(12, 51);
             this.gvOrders.Name = "gvOrders";
+            this.gvOrders.RowHeadersVisible = false;
+            this.gvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvOrders.Size = new System.Drawing.Size(630, 148);
             this.gvOrders.TabIndex = 0;
+            this.gvOrders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvOrders_CellContentClick);
             // 
             // label1
             // 
@@ -73,43 +87,47 @@
             // 
             // btnFirstOrders
             // 
-            this.btnFirstOrders.Location = new System.Drawing.Point(281, 227);
+            this.btnFirstOrders.Location = new System.Drawing.Point(281, 205);
             this.btnFirstOrders.Name = "btnFirstOrders";
             this.btnFirstOrders.Size = new System.Drawing.Size(75, 23);
             this.btnFirstOrders.TabIndex = 4;
             this.btnFirstOrders.Text = "First";
             this.btnFirstOrders.UseVisualStyleBackColor = true;
+            this.btnFirstOrders.Click += new System.EventHandler(this.btnFirstOrders_Click);
             // 
             // btnPreviousOrders
             // 
-            this.btnPreviousOrders.Location = new System.Drawing.Point(374, 226);
+            this.btnPreviousOrders.Location = new System.Drawing.Point(374, 205);
             this.btnPreviousOrders.Name = "btnPreviousOrders";
             this.btnPreviousOrders.Size = new System.Drawing.Size(75, 23);
             this.btnPreviousOrders.TabIndex = 5;
             this.btnPreviousOrders.Text = "Previous";
             this.btnPreviousOrders.UseVisualStyleBackColor = true;
+            this.btnPreviousOrders.Click += new System.EventHandler(this.btnPreviousOrders_Click);
             // 
             // btnNextOrders
             // 
-            this.btnNextOrders.Location = new System.Drawing.Point(467, 226);
+            this.btnNextOrders.Location = new System.Drawing.Point(467, 205);
             this.btnNextOrders.Name = "btnNextOrders";
             this.btnNextOrders.Size = new System.Drawing.Size(75, 23);
             this.btnNextOrders.TabIndex = 6;
             this.btnNextOrders.Text = "Next";
             this.btnNextOrders.UseVisualStyleBackColor = true;
+            this.btnNextOrders.Click += new System.EventHandler(this.btnNextOrders_Click);
             // 
             // btnLastOrders
             // 
-            this.btnLastOrders.Location = new System.Drawing.Point(567, 226);
+            this.btnLastOrders.Location = new System.Drawing.Point(567, 205);
             this.btnLastOrders.Name = "btnLastOrders";
             this.btnLastOrders.Size = new System.Drawing.Size(75, 23);
             this.btnLastOrders.TabIndex = 7;
             this.btnLastOrders.Text = "Last";
             this.btnLastOrders.UseVisualStyleBackColor = true;
+            this.btnLastOrders.Click += new System.EventHandler(this.btnLastOrders_Click);
             // 
             // btnDeleteOrders
             // 
-            this.btnDeleteOrders.Location = new System.Drawing.Point(374, 271);
+            this.btnDeleteOrders.Location = new System.Drawing.Point(374, 243);
             this.btnDeleteOrders.Name = "btnDeleteOrders";
             this.btnDeleteOrders.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteOrders.TabIndex = 8;
@@ -118,7 +136,7 @@
             // 
             // btnEditOrders
             // 
-            this.btnEditOrders.Location = new System.Drawing.Point(467, 271);
+            this.btnEditOrders.Location = new System.Drawing.Point(467, 243);
             this.btnEditOrders.Name = "btnEditOrders";
             this.btnEditOrders.Size = new System.Drawing.Size(75, 23);
             this.btnEditOrders.TabIndex = 9;
@@ -127,7 +145,7 @@
             // 
             // btnDetailsOrders
             // 
-            this.btnDetailsOrders.Location = new System.Drawing.Point(567, 271);
+            this.btnDetailsOrders.Location = new System.Drawing.Point(567, 243);
             this.btnDetailsOrders.Name = "btnDetailsOrders";
             this.btnDetailsOrders.Size = new System.Drawing.Size(75, 23);
             this.btnDetailsOrders.TabIndex = 10;
@@ -136,7 +154,7 @@
             // 
             // btnShowProductsOrders
             // 
-            this.btnShowProductsOrders.Location = new System.Drawing.Point(15, 226);
+            this.btnShowProductsOrders.Location = new System.Drawing.Point(12, 215);
             this.btnShowProductsOrders.Name = "btnShowProductsOrders";
             this.btnShowProductsOrders.Size = new System.Drawing.Size(106, 23);
             this.btnShowProductsOrders.TabIndex = 11;
@@ -145,7 +163,7 @@
             // 
             // btnShowEmployeesOrders
             // 
-            this.btnShowEmployeesOrders.Location = new System.Drawing.Point(15, 255);
+            this.btnShowEmployeesOrders.Location = new System.Drawing.Point(12, 244);
             this.btnShowEmployeesOrders.Name = "btnShowEmployeesOrders";
             this.btnShowEmployeesOrders.Size = new System.Drawing.Size(106, 23);
             this.btnShowEmployeesOrders.TabIndex = 12;
@@ -185,11 +203,97 @@
             this.dateTimePicker2.Size = new System.Drawing.Size(157, 20);
             this.dateTimePicker2.TabIndex = 16;
             // 
+            // gvOrderItems
+            // 
+            this.gvOrderItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gvOrderItems.Location = new System.Drawing.Point(12, 290);
+            this.gvOrderItems.Name = "gvOrderItems";
+            this.gvOrderItems.RowHeadersVisible = false;
+            this.gvOrderItems.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gvOrderItems.Size = new System.Drawing.Size(627, 93);
+            this.gvOrderItems.TabIndex = 17;
+            // 
+            // btnFirstOrderItems
+            // 
+            this.btnFirstOrderItems.Location = new System.Drawing.Point(281, 401);
+            this.btnFirstOrderItems.Name = "btnFirstOrderItems";
+            this.btnFirstOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnFirstOrderItems.TabIndex = 18;
+            this.btnFirstOrderItems.Text = "First";
+            this.btnFirstOrderItems.UseVisualStyleBackColor = true;
+            this.btnFirstOrderItems.Click += new System.EventHandler(this.btnFirstOrderItems_Click);
+            // 
+            // btnPreviousOrderItems
+            // 
+            this.btnPreviousOrderItems.Location = new System.Drawing.Point(374, 401);
+            this.btnPreviousOrderItems.Name = "btnPreviousOrderItems";
+            this.btnPreviousOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnPreviousOrderItems.TabIndex = 19;
+            this.btnPreviousOrderItems.Text = "Previous";
+            this.btnPreviousOrderItems.UseVisualStyleBackColor = true;
+            this.btnPreviousOrderItems.Click += new System.EventHandler(this.btnPreviousOrderItems_Click);
+            // 
+            // btnNextOrderItems
+            // 
+            this.btnNextOrderItems.Location = new System.Drawing.Point(467, 400);
+            this.btnNextOrderItems.Name = "btnNextOrderItems";
+            this.btnNextOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnNextOrderItems.TabIndex = 20;
+            this.btnNextOrderItems.Text = "Next";
+            this.btnNextOrderItems.UseVisualStyleBackColor = true;
+            this.btnNextOrderItems.Click += new System.EventHandler(this.btnNextOrderItems_Click);
+            // 
+            // btnLastOrderItems
+            // 
+            this.btnLastOrderItems.Location = new System.Drawing.Point(567, 400);
+            this.btnLastOrderItems.Name = "btnLastOrderItems";
+            this.btnLastOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnLastOrderItems.TabIndex = 21;
+            this.btnLastOrderItems.Text = "Last";
+            this.btnLastOrderItems.UseVisualStyleBackColor = true;
+            this.btnLastOrderItems.Click += new System.EventHandler(this.btnLastOrderItems_Click);
+            // 
+            // btnDeleteOrderItems
+            // 
+            this.btnDeleteOrderItems.Location = new System.Drawing.Point(374, 443);
+            this.btnDeleteOrderItems.Name = "btnDeleteOrderItems";
+            this.btnDeleteOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteOrderItems.TabIndex = 22;
+            this.btnDeleteOrderItems.Text = "Delete";
+            this.btnDeleteOrderItems.UseVisualStyleBackColor = true;
+            this.btnDeleteOrderItems.Click += new System.EventHandler(this.btnDeleteOrderItems_Click);
+            // 
+            // btnEditOrderItems
+            // 
+            this.btnEditOrderItems.Location = new System.Drawing.Point(467, 443);
+            this.btnEditOrderItems.Name = "btnEditOrderItems";
+            this.btnEditOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnEditOrderItems.TabIndex = 23;
+            this.btnEditOrderItems.Text = "Edit";
+            this.btnEditOrderItems.UseVisualStyleBackColor = true;
+            // 
+            // btnDetailsOrderItems
+            // 
+            this.btnDetailsOrderItems.Location = new System.Drawing.Point(564, 443);
+            this.btnDetailsOrderItems.Name = "btnDetailsOrderItems";
+            this.btnDetailsOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnDetailsOrderItems.TabIndex = 24;
+            this.btnDetailsOrderItems.Text = "Details";
+            this.btnDetailsOrderItems.UseVisualStyleBackColor = true;
+            // 
             // FormOrders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(654, 330);
+            this.ClientSize = new System.Drawing.Size(654, 496);
+            this.Controls.Add(this.btnDetailsOrderItems);
+            this.Controls.Add(this.btnEditOrderItems);
+            this.Controls.Add(this.btnDeleteOrderItems);
+            this.Controls.Add(this.btnLastOrderItems);
+            this.Controls.Add(this.btnNextOrderItems);
+            this.Controls.Add(this.btnPreviousOrderItems);
+            this.Controls.Add(this.btnFirstOrderItems);
+            this.Controls.Add(this.gvOrderItems);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label3);
@@ -208,7 +312,9 @@
             this.Controls.Add(this.gvOrders);
             this.Name = "FormOrders";
             this.Text = "Orders Page";
+            this.Load += new System.EventHandler(this.FormOrders_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvOrders)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gvOrderItems)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,5 +338,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DataGridView gvOrderItems;
+        private Button btnFirstOrderItems;
+        private Button btnPreviousOrderItems;
+        private Button btnNextOrderItems;
+        private Button btnLastOrderItems;
+        private Button btnDeleteOrderItems;
+        private Button btnEditOrderItems;
+        private Button btnDetailsOrderItems;
     }
 }

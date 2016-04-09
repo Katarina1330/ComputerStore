@@ -1,6 +1,8 @@
-﻿namespace ComputerStore
+﻿using System.Windows.Forms;
+
+namespace ComputerStore
 {
-    partial class FromEmployees
+    partial class FormEmployees
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +31,12 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.txtSearchEmployee = new System.Windows.Forms.TextBox();
             this.btnPreviousEmployee = new System.Windows.Forms.Button();
             this.btnNextEmployee = new System.Windows.Forms.Button();
             this.btnLastEmployee = new System.Windows.Forms.Button();
             this.gvEmployees = new System.Windows.Forms.DataGridView();
+            this.Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btnFirstEmployee = new System.Windows.Forms.Button();
             this.btnAddOrderEmployee = new System.Windows.Forms.Button();
             this.btnDetailsEmployee = new System.Windows.Forms.Button();
@@ -54,12 +57,12 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Search";
             // 
-            // txtSearch
+            // txtSearchEmployee
             // 
-            this.txtSearch.Location = new System.Drawing.Point(59, 16);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(152, 20);
-            this.txtSearch.TabIndex = 1;
+            this.txtSearchEmployee.Location = new System.Drawing.Point(59, 16);
+            this.txtSearchEmployee.Name = "txtSearchEmployee";
+            this.txtSearchEmployee.Size = new System.Drawing.Size(152, 20);
+            this.txtSearchEmployee.TabIndex = 1;
             // 
             // btnPreviousEmployee
             // 
@@ -69,6 +72,7 @@
             this.btnPreviousEmployee.TabIndex = 2;
             this.btnPreviousEmployee.Text = "Previous";
             this.btnPreviousEmployee.UseVisualStyleBackColor = true;
+            this.btnPreviousEmployee.Click += new System.EventHandler(this.btnPreviousEmployee_Click);
             // 
             // btnNextEmployee
             // 
@@ -78,6 +82,7 @@
             this.btnNextEmployee.TabIndex = 3;
             this.btnNextEmployee.Text = "Next";
             this.btnNextEmployee.UseVisualStyleBackColor = true;
+            this.btnNextEmployee.Click += new System.EventHandler(this.btnNextEmployee_Click);
             // 
             // btnLastEmployee
             // 
@@ -87,14 +92,27 @@
             this.btnLastEmployee.TabIndex = 3;
             this.btnLastEmployee.Text = "Last";
             this.btnLastEmployee.UseVisualStyleBackColor = true;
+            this.btnLastEmployee.Click += new System.EventHandler(this.btnLastEmployee_Click);
             // 
             // gvEmployees
             // 
+            this.gvEmployees.AllowUserToAddRows = false;
+            this.gvEmployees.AllowUserToDeleteRows = false;
             this.gvEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gvEmployees.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Select});
             this.gvEmployees.Location = new System.Drawing.Point(15, 53);
             this.gvEmployees.Name = "gvEmployees";
             this.gvEmployees.Size = new System.Drawing.Size(608, 121);
             this.gvEmployees.TabIndex = 4;
+            this.gvEmployees.RowHeadersVisible = false;
+            this.gvEmployees.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            // 
+            // Select
+            // 
+            this.Select.HeaderText = "Select";
+            this.Select.Name = "Select";
+            this.Select.Visible = false;
             // 
             // btnFirstEmployee
             // 
@@ -104,6 +122,7 @@
             this.btnFirstEmployee.TabIndex = 5;
             this.btnFirstEmployee.Text = "First";
             this.btnFirstEmployee.UseVisualStyleBackColor = true;
+            this.btnFirstEmployee.Click += new System.EventHandler(this.btnFirstEmployee_Click);
             // 
             // btnAddOrderEmployee
             // 
@@ -149,6 +168,7 @@
             this.btnShowOrdersEmployee.TabIndex = 10;
             this.btnShowOrdersEmployee.Text = "Show Orders";
             this.btnShowOrdersEmployee.UseVisualStyleBackColor = true;
+            this.btnShowOrdersEmployee.Click += new System.EventHandler(this.btnShowOrdersEmployee_Click);
             // 
             // btnShowProductsEmployee
             // 
@@ -158,6 +178,7 @@
             this.btnShowProductsEmployee.TabIndex = 11;
             this.btnShowProductsEmployee.Text = "Show Products";
             this.btnShowProductsEmployee.UseVisualStyleBackColor = true;
+            this.btnShowProductsEmployee.Click += new System.EventHandler(this.btnShowProductsEmployee_Click);
             // 
             // btnCreateNewEmployee
             // 
@@ -168,11 +189,12 @@
             this.btnCreateNewEmployee.Text = "Create New Employee";
             this.btnCreateNewEmployee.UseVisualStyleBackColor = true;
             // 
-            // FromEmployees
+            // FormEmployees
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 329);
+            this.Controls.Add(this.btnPreviousEmployee);
             this.Controls.Add(this.btnCreateNewEmployee);
             this.Controls.Add(this.btnShowProductsEmployee);
             this.Controls.Add(this.btnShowOrdersEmployee);
@@ -184,11 +206,10 @@
             this.Controls.Add(this.gvEmployees);
             this.Controls.Add(this.btnLastEmployee);
             this.Controls.Add(this.btnNextEmployee);
-            this.Controls.Add(this.btnPreviousEmployee);
-            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.txtSearchEmployee);
             this.Controls.Add(this.label1);
-            this.Name = "FromEmployees";
-            this.Text = "Form1";
+            this.Name = "FormEmployees";
+            this.Text = "Employees  Page";
             this.Load += new System.EventHandler(this.FromEmployees_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvEmployees)).EndInit();
             this.ResumeLayout(false);
@@ -199,7 +220,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.TextBox txtSearchEmployee;
         private System.Windows.Forms.Button btnPreviousEmployee;
         private System.Windows.Forms.Button btnNextEmployee;
         private System.Windows.Forms.Button btnLastEmployee;
@@ -212,6 +233,7 @@
         private System.Windows.Forms.Button btnShowOrdersEmployee;
         private System.Windows.Forms.Button btnShowProductsEmployee;
         private System.Windows.Forms.Button btnCreateNewEmployee;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Select;
     }
 }
 

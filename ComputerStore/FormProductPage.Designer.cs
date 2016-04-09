@@ -1,6 +1,8 @@
-﻿namespace ComputerStore
+﻿using System.Windows.Forms;
+
+namespace ComputerStore
 {
-    partial class Product_Page
+    partial class ProductPage
     {
         /// <summary>
         /// Required designer variable.
@@ -67,7 +69,8 @@
             this.gvProduct.Name = "gvProduct";
             this.gvProduct.Size = new System.Drawing.Size(594, 136);
             this.gvProduct.TabIndex = 2;
-            this.gvProduct.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.gvProduct.RowHeadersVisible = false;
+            this.gvProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             // 
             // btnShowOrdersProduct
             // 
@@ -86,6 +89,7 @@
             this.btnFirstProduct.TabIndex = 4;
             this.btnFirstProduct.Text = "First";
             this.btnFirstProduct.UseVisualStyleBackColor = true;
+            this.btnFirstProduct.Click += new System.EventHandler(this.btnFirstProduct_Click);
             // 
             // btnPreviousProduct
             // 
@@ -95,6 +99,7 @@
             this.btnPreviousProduct.TabIndex = 5;
             this.btnPreviousProduct.Text = "Previous";
             this.btnPreviousProduct.UseVisualStyleBackColor = true;
+            this.btnPreviousProduct.Click += new System.EventHandler(this.btnPreviousProduct_Click);
             // 
             // btnNextProduct
             // 
@@ -104,6 +109,7 @@
             this.btnNextProduct.TabIndex = 6;
             this.btnNextProduct.Text = "Next";
             this.btnNextProduct.UseVisualStyleBackColor = true;
+            this.btnNextProduct.Click += new System.EventHandler(this.btnNextProduct_Click);
             // 
             // btnLastProduct
             // 
@@ -113,6 +119,7 @@
             this.btnLastProduct.TabIndex = 7;
             this.btnLastProduct.Text = "Last";
             this.btnLastProduct.UseVisualStyleBackColor = true;
+            this.btnLastProduct.Click += new System.EventHandler(this.btnLastProduct_Click);
             // 
             // btnAddProduct
             // 
@@ -131,7 +138,6 @@
             this.btnDetails.TabIndex = 9;
             this.btnDetails.Text = "Details";
             this.btnDetails.UseVisualStyleBackColor = true;
-            this.btnDetails.Click += new System.EventHandler(this.button7_Click);
             // 
             // btnEditProduct
             // 
@@ -160,7 +166,7 @@
             this.btnShowEmployeesProduct.Text = "Show Employees";
             this.btnShowEmployeesProduct.UseVisualStyleBackColor = true;
             // 
-            // Product_Page
+            // ProductPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -178,8 +184,9 @@
             this.Controls.Add(this.gvProduct);
             this.Controls.Add(this.textSearchProduct);
             this.Controls.Add(this.label1);
-            this.Name = "Product_Page";
+            this.Name = "ProductPage";
             this.Text = "Product_Page";
+            this.Load += new System.EventHandler(this.Product_Page_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvProduct)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

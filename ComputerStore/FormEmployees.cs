@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ComputerStore
 {
-    public partial class FromEmployees : Form
+    public partial class FormEmployees : Form
     {
-        public FromEmployees()
+        public FormEmployees()
         {
             InitializeComponent();
         }
@@ -59,6 +59,20 @@ namespace ComputerStore
         private void btnPreviousEmployee_Click(object sender, EventArgs e)
         {
             bsEmployees.MovePrevious();
+        }
+
+        private void btnShowOrdersEmployee_Click(object sender, EventArgs e)
+        {
+            // new FormOrders().ShowDialog();
+
+            var frm = new FormOrders();
+            frm.ShowDialog();
+        }
+
+        private void btnShowProductsEmployee_Click(object sender, EventArgs e)
+        {
+            var frm = new ProductPage();
+            frm.ShowDialog();
         }
     }
 }

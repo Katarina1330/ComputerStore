@@ -16,7 +16,7 @@ namespace ComputerStore
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FromEmployees());
+            Application.Run(new FormEmployees());
         }
     }
 }
