@@ -160,6 +160,7 @@ namespace ComputerStore
             this.btnShowProductsOrders.TabIndex = 11;
             this.btnShowProductsOrders.Text = "Show Products";
             this.btnShowProductsOrders.UseVisualStyleBackColor = true;
+            this.btnShowProductsOrders.Click += new System.EventHandler(this.btnShowProductsOrders_Click);
             // 
             // btnShowEmployeesOrders
             // 
@@ -169,6 +170,7 @@ namespace ComputerStore
             this.btnShowEmployeesOrders.TabIndex = 12;
             this.btnShowEmployeesOrders.Text = "Show Employees";
             this.btnShowEmployeesOrders.UseVisualStyleBackColor = true;
+            this.btnShowEmployeesOrders.Click += new System.EventHandler(this.btnShowEmployeesOrders_Click);
             // 
             // label2
             // 

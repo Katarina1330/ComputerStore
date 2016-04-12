@@ -15,6 +15,24 @@ namespace ComputerStore
         public FormOrders()
         {
             InitializeComponent();
+            counter++;
+        }
+
+        private static int counter = 0;
+        public static int Counter
+        {
+            get { return counter; }
+        }
+
+        public static bool CanCreateNewForm
+        {
+            get
+            {
+                if (counter == 0)
+                    return true;
+                else
+                    return false;
+            }
         }
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
@@ -105,6 +123,33 @@ namespace ComputerStore
         private void btnLastOrders_Click(object sender, EventArgs e)
         {
             bsOrders.MoveLast();
+        }
+
+        private void btnShowProductsOrders_Click(object sender, EventArgs e)
+        {
+            if (FormProductPage.CanCreateNewForm)
+            {
+                var frm = new FormProductPage();
+                frm.ShowDialog();
+            }
+
+            else
+            {
+                MessageBox.Show("Form Product is already opened.");
+            }
+        }
+
+        private void btnShowEmployeesOrders_Click(object sender, EventArgs e)
+        {
+            if (FormEmployees.CanCreateNewForm)
+            {
+                var frm = new FormEmployees();
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Form Employees is already opened.");
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ComputerStore
 {
-    partial class ProductPage
+    partial class FormProductPage
     {
         /// <summary>
         /// Required designer variable.
@@ -67,10 +67,10 @@ namespace ComputerStore
             this.gvProduct.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvProduct.Location = new System.Drawing.Point(16, 46);
             this.gvProduct.Name = "gvProduct";
+            this.gvProduct.RowHeadersVisible = false;
+            this.gvProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvProduct.Size = new System.Drawing.Size(594, 136);
             this.gvProduct.TabIndex = 2;
-            this.gvProduct.RowHeadersVisible = false;
-            this.gvProduct.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             // 
             // btnShowOrdersProduct
             // 
@@ -80,6 +80,7 @@ namespace ComputerStore
             this.btnShowOrdersProduct.TabIndex = 3;
             this.btnShowOrdersProduct.Text = "Show Orders";
             this.btnShowOrdersProduct.UseVisualStyleBackColor = true;
+            this.btnShowOrdersProduct.Click += new System.EventHandler(this.btnShowOrdersProduct_Click);
             // 
             // btnFirstProduct
             // 
@@ -165,8 +166,9 @@ namespace ComputerStore
             this.btnShowEmployeesProduct.TabIndex = 12;
             this.btnShowEmployeesProduct.Text = "Show Employees";
             this.btnShowEmployeesProduct.UseVisualStyleBackColor = true;
+            this.btnShowEmployeesProduct.Click += new System.EventHandler(this.btnShowEmployeesProduct_Click);
             // 
-            // ProductPage
+            // FormProductPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -184,7 +186,7 @@ namespace ComputerStore
             this.Controls.Add(this.gvProduct);
             this.Controls.Add(this.textSearchProduct);
             this.Controls.Add(this.label1);
-            this.Name = "ProductPage";
+            this.Name = "FormProductPage";
             this.Text = "Product_Page";
             this.Load += new System.EventHandler(this.Product_Page_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvProduct)).EndInit();

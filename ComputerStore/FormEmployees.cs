@@ -15,7 +15,35 @@ namespace ComputerStore
         public FormEmployees()
         {
             InitializeComponent();
+            counter++;
+            //MessageBox.Show("Broj formi: " + counter);
         }
+
+        private static int counter = 0;
+        public static int Counter
+        {
+            get { return counter; }
+        }
+
+        public static bool CanCreateNewForm
+        {
+            // get { return counter == 0; }
+            get
+            {
+                if (counter == 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        //public static bool CanCreateNewFormMethod()
+        //{
+        //    if (counter == 0)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         BindingSource bsEmployees = new BindingSource();
 
@@ -38,8 +66,8 @@ namespace ComputerStore
                 Width = 50
             };
             gvEmployees.Columns.Add(colSelect);
-            
-        }        
+
+        }
 
         private void btnFirstEmployee_Click(object sender, EventArgs e)
         {
@@ -64,15 +92,29 @@ namespace ComputerStore
         private void btnShowOrdersEmployee_Click(object sender, EventArgs e)
         {
             // new FormOrders().ShowDialog();
+            if (FormOrders.CanCreateNewForm)
+            {
 
-            var frm = new FormOrders();
-            frm.ShowDialog();
+                var frm = new FormOrders();
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Form Orders is already opened.");
+            }
         }
 
         private void btnShowProductsEmployee_Click(object sender, EventArgs e)
         {
-            var frm = new ProductPage();
-            frm.ShowDialog();
+            if (FormProductPage.CanCreateNewForm)
+            {
+                var frm = new FormProductPage();
+                frm.ShowDialog();
+             }
+            else
+            {
+                MessageBox.Show("Form Products is already opened.");
+            }
         }
     }
 }
