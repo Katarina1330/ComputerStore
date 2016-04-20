@@ -13,5 +13,7 @@ namespace ComputerStore
         public int IdProduct { set; get; }
         public int Quantity { set; get; }
         public decimal OrderItemPrice { set; get; }
+
+        public string NameProduct { set; get; }
     }
 }

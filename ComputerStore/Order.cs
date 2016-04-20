@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComputerStore
 {
-    public class Orders
+    public class Order
     {
         public int IdOrder { get; set; }
         public DateTime DateOrder { get; set; }
@@ -15,6 +15,9 @@ namespace ComputerStore
         public int IdEmployee { get; set; }
         public string Details { get; set; }
         public int IdCustomer { get; set; }
+
+        public string EmployeeName { get; set; }
+        public string CustomerName { get; set; }
         
     }
 }

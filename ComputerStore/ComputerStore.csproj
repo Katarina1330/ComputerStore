@@ -52,22 +52,38 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DsComputerStore.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Employee.cs" />
     <Compile Include="FormOrders.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormOrders.Designer.cs">
       <DependentUpon>FormOrders.cs</DependentUpon>
     </Compile>
-    <Compile Include="FromEmployees.cs">
+    <Compile Include="FormEmployees.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FromEmployees.Designer.cs">
-      <DependentUpon>FromEmployees.cs</DependentUpon>
+    <Compile Include="FormEmployees.Designer.cs">
+      <DependentUpon>FormEmployees.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormProductPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProductPage.Designer.cs">
+      <DependentUpon>FormProductPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderItem.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FromEmployees.resx">
-      <DependentUpon>FromEmployees.cs</DependentUpon>
+    <EmbeddedResource Include="FormOrders.resx">
+      <DependentUpon>FormOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEmployees.resx">
+      <DependentUpon>FormEmployees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProductPage.resx">
+      <DependentUpon>FormProductPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

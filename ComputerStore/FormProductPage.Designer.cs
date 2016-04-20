@@ -172,7 +172,7 @@ namespace ComputerStore
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(622, 287);
+            this.ClientSize = new System.Drawing.Size(622, 280);
             this.Controls.Add(this.btnShowEmployeesProduct);
             this.Controls.Add(this.btnDeleteProduct);
             this.Controls.Add(this.btnEditProduct);
@@ -188,6 +188,7 @@ namespace ComputerStore
             this.Controls.Add(this.label1);
             this.Name = "FormProductPage";
             this.Text = "Product_Page";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormProductPage_FormClosed);
             this.Load += new System.EventHandler(this.Product_Page_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvProduct)).EndInit();
             this.ResumeLayout(false);

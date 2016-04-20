@@ -20,11 +20,6 @@ namespace ComputerStore
 
         private static int counter = 0;
 
-        public static int Counter
-        {
-            get { return counter; }
-        }
-
         public static bool CanCreateNewForm
         {
             get
@@ -77,11 +72,21 @@ namespace ComputerStore
             if (FormOrders.CanCreateNewForm)
             {
                 var frm = new FormOrders();
+                frm.RoditeljskaForma = this;
                 frm.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Form Orders is already opened.");
+               var response = MessageBox.Show("Form Orders is already opened. Do you want to close this form?"
+                   , "Form Orders", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if(response == DialogResult.Yes)
+                {
+                    this.Close();
+                    if (!(RoditeljskaForma is FormOrders))
+                        RoditeljskaForma.Close();
+
+                }
             }
         }
 
@@ -97,16 +102,29 @@ namespace ComputerStore
             {
                 // kreiranje nove Emp. forme
                 var frm = new FormEmployees();
+                frm.RoditeljskaForma = this;
                 frm.ShowDialog();
             }
             else
             {
                 // ne dozvoljavam novu formu
-                MessageBox.Show("Form Employees is already opened.");
-            }
+               var response = MessageBox.Show("Form Employees is already opened. Do you want to close this form?"
+                   , "Form Employees", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            //MessageBox.Show(frm.Counter.ToString());
-            //frm.Counter = 123; nije dozvoljeno jer ne postoji set, postoji samo get
+                if(response == DialogResult.Yes)
+                {
+                    this.Close();
+                    if (!(RoditeljskaForma is FormEmployees))
+                        RoditeljskaForma.Close();
+                }
+            }
+        }
+
+        public Form RoditeljskaForma { get; set; }
+
+        private void FormProductPage_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            counter--;
         }
     }
 }

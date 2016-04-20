@@ -18,11 +18,16 @@ namespace ComputerStore
             counter++;
         }
 
-        private static int counter = 0;
-        public static int Counter
+        public FormOrders(int idEmployee)
         {
-            get { return counter; }
+            InitializeComponent();
+            counter++;
+            this.idEmployee = idEmployee;
         }
+
+        private int idEmployee = -1;
+
+        private static int counter = 0;
 
         public static bool CanCreateNewForm
         {
@@ -51,6 +56,7 @@ namespace ComputerStore
         private void FormOrders_Load(object sender, EventArgs e)
         {
             var orderItems = DataAccess.ReadAllOrderItems();
+
             bsOrderItems.DataSource = orderItems;
             gvOrderItems.DataSource = bsOrderItems;
 
@@ -60,12 +66,24 @@ namespace ComputerStore
                 Width = 50
             };
             gvOrderItems.Columns.Add(colSelect);
+            gvOrderItems.Columns["IdOrder"].Visible = false;
+            gvOrderItems.Columns["IdProduct"].Visible = false;
+            gvOrderItems.Columns["IdOrderItem"].Visible = false;
 
+            List<Order> orders;
+            if (idEmployee == -1)
+            {
+                orders = DataAccess.readAllOrders(); // sve porudzbine
+            }
+            else
+            {
+                orders = DataAccess.readOrdersForEmployee(idEmployee); // por. za odabranog zap.
+            }
 
-
-            var orders = DataAccess.readAllOrders();
             bsOrders.DataSource = orders;
             gvOrders.DataSource = bsOrders;
+            bsOrders.CurrentChanged += BsOrders_CurrentChanged;
+            BsOrders_CurrentChanged(this, EventArgs.Empty);
 
             var colSelect2 = new DataGridViewCheckBoxColumn()
             {
@@ -73,6 +91,25 @@ namespace ComputerStore
                 Width = 50
             };
             gvOrders.Columns.Add(colSelect2);
+            gvOrders.Columns["IdEmployee"].Visible = false;
+            gvOrders.Columns["IdCustomer"].Visible = false;
+        }
+
+        private void BsOrders_CurrentChanged(object sender, EventArgs e)
+        {
+            //* mogucnosti za ispitivanje (novog, nepoznatog) dogadjaja
+            // MessageBox.Show("BsOrders_CurrentChanged");
+            // Text += "/";
+
+            // uzmem id porudzbine (orderId) za current (trenutnu) por.
+            // var order = (Order)gvOrders.CurrentRow.DataBoundItem;
+            var order = (Order)bsOrders.Current;
+           // MessageBox.Show(order.IdOrder.ToString());
+
+
+             List<OrderItem> orderItems = DataAccess.ReadOrderItemsForOneOrder(order.IdOrder);
+            bsOrderItems.DataSource = orderItems;
+            gvOrderItems.DataSource = bsOrderItems;
         }
 
         private void btnFirstOrderItems_Click(object sender, EventArgs e)
@@ -97,7 +134,7 @@ namespace ComputerStore
 
         private void btnDeleteOrderItems_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void gvOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -130,12 +167,21 @@ namespace ComputerStore
             if (FormProductPage.CanCreateNewForm)
             {
                 var frm = new FormProductPage();
+                frm.RoditeljskaForma = this;
                 frm.ShowDialog();
             }
 
             else
             {
-                MessageBox.Show("Form Product is already opened.");
+                var response = MessageBox.Show("Form Product is already opened. Do you want to close this form?"
+                    , "Form Product Page", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (response == DialogResult.Yes)
+                {
+                    this.Close();
+                    if (!(RoditeljskaForma is FormProductPage))
+                        RoditeljskaForma.Close();
+                }
             }
         }
 
@@ -144,12 +190,35 @@ namespace ComputerStore
             if (FormEmployees.CanCreateNewForm)
             {
                 var frm = new FormEmployees();
+                frm.RoditeljskaForma = this;
                 frm.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Form Employees is already opened.");
+                // MessageBox.Show("Form Employees is already opened.", "Kreiranje forme");
+                //MessageBox.Show("Form Employees is already opened.", "Kreiranje forme"
+                //    , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var response = MessageBox.Show("Form Employees is already opened. Do you want to close this form?"
+                    , "Employees Form", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (response == DialogResult.Yes)
+                {
+                    this.Close();
+                    if (!(RoditeljskaForma is FormEmployees))
+                        RoditeljskaForma.Close();
+                }
             }
+        }
+
+        public Form RoditeljskaForma { get; set; }
+
+        private void FormOrders_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            counter--;
+        }
+
+        private void gvOrders_SelectionChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

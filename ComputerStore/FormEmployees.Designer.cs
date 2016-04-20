@@ -30,13 +30,15 @@ namespace ComputerStore
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.txtSearchEmployee = new System.Windows.Forms.TextBox();
             this.btnPreviousEmployee = new System.Windows.Forms.Button();
             this.btnNextEmployee = new System.Windows.Forms.Button();
             this.btnLastEmployee = new System.Windows.Forms.Button();
             this.gvEmployees = new System.Windows.Forms.DataGridView();
-            this.Select = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MenuItemEmployeesOrders = new System.Windows.Forms.ToolStripMenuItem();
             this.btnFirstEmployee = new System.Windows.Forms.Button();
             this.btnAddOrderEmployee = new System.Windows.Forms.Button();
             this.btnDetailsEmployee = new System.Windows.Forms.Button();
@@ -46,6 +48,7 @@ namespace ComputerStore
             this.btnShowProductsEmployee = new System.Windows.Forms.Button();
             this.btnCreateNewEmployee = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gvEmployees)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -99,20 +102,27 @@ namespace ComputerStore
             this.gvEmployees.AllowUserToAddRows = false;
             this.gvEmployees.AllowUserToDeleteRows = false;
             this.gvEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gvEmployees.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Select});
+            this.gvEmployees.ContextMenuStrip = this.contextMenuStrip1;
             this.gvEmployees.Location = new System.Drawing.Point(15, 53);
             this.gvEmployees.Name = "gvEmployees";
+            this.gvEmployees.RowHeadersVisible = false;
+            this.gvEmployees.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvEmployees.Size = new System.Drawing.Size(608, 121);
             this.gvEmployees.TabIndex = 4;
-            this.gvEmployees.RowHeadersVisible = false;
-            this.gvEmployees.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             // 
-            // Select
+            // contextMenuStrip1
             // 
-            this.Select.HeaderText = "Select";
-            this.Select.Name = "Select";
-            this.Select.Visible = false;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemEmployeesOrders});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(171, 26);
+            // 
+            // MenuItemEmployeesOrders
+            // 
+            this.MenuItemEmployeesOrders.Name = "MenuItemEmployeesOrders";
+            this.MenuItemEmployeesOrders.Size = new System.Drawing.Size(170, 22);
+            this.MenuItemEmployeesOrders.Text = "Employees\' orders";
+            this.MenuItemEmployeesOrders.Click += new System.EventHandler(this.MenuItemEmployeesOrders_Click);
             // 
             // btnFirstEmployee
             // 
@@ -159,6 +169,7 @@ namespace ComputerStore
             this.btnDeleteEmployee.TabIndex = 9;
             this.btnDeleteEmployee.Text = "Delete";
             this.btnDeleteEmployee.UseVisualStyleBackColor = true;
+            this.btnDeleteEmployee.Click += new System.EventHandler(this.btnDeleteEmployee_Click);
             // 
             // btnShowOrdersEmployee
             // 
@@ -210,8 +221,10 @@ namespace ComputerStore
             this.Controls.Add(this.label1);
             this.Name = "FormEmployees";
             this.Text = "Employees  Page";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormEmployees_FormClosed);
             this.Load += new System.EventHandler(this.FromEmployees_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvEmployees)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,7 +246,8 @@ namespace ComputerStore
         private System.Windows.Forms.Button btnShowOrdersEmployee;
         private System.Windows.Forms.Button btnShowProductsEmployee;
         private System.Windows.Forms.Button btnCreateNewEmployee;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Select;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem MenuItemEmployeesOrders;
     }
 }
 

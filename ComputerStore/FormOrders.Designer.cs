@@ -68,6 +68,7 @@ namespace ComputerStore
             this.gvOrders.Size = new System.Drawing.Size(630, 148);
             this.gvOrders.TabIndex = 0;
             this.gvOrders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvOrders_CellContentClick);
+            this.gvOrders.SelectionChanged += new System.EventHandler(this.gvOrders_SelectionChanged);
             // 
             // label1
             // 
@@ -314,6 +315,7 @@ namespace ComputerStore
             this.Controls.Add(this.gvOrders);
             this.Name = "FormOrders";
             this.Text = "Orders Page";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOrders_FormClosed);
             this.Load += new System.EventHandler(this.FormOrders_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gvOrders)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrderItems)).EndInit();
