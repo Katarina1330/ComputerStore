@@ -53,6 +53,12 @@
       <DependentUpon>DsComputerStore.xsd</DependentUpon>
     </Compile>
     <Compile Include="Employee.cs" />
+    <Compile Include="FormDetailsEmployee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDetailsEmployee.Designer.cs">
+      <DependentUpon>FormDetailsEmployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormOrders.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     <Compile Include="Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormDetailsEmployee.resx">
+      <DependentUpon>FormDetailsEmployee.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormOrders.resx">
       <DependentUpon>FormOrders.cs</DependentUpon>
     </EmbeddedResource>

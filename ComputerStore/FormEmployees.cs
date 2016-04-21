@@ -33,32 +33,19 @@ namespace ComputerStore
             }
         }
 
-        //public static bool CanCreateNewFormMethod()
-        //{
-        //    if (counter == 0)
-        //        return true;
-        //    else
-        //        return false;
-        //}
-
         BindingSource bsEmployees = new BindingSource();
 
         private void FromEmployees_Load(object sender, EventArgs e)
         {
             ReadEmployeesFromDb();
+           // gvEmployees.Rows[0].Selected = true;
         }
 
         private void ReadEmployeesFromDb()
         {
-            gvEmployees.Columns.Clear();
+           // gvEmployees.Columns.Clear();
             var employees = DataAccess.ReadActiveEmployees();
-            //foreach (var emp in employees)
-            //{
-            //}
-            //var list = new BindingList<Employee>(employees);
-            //gvEmployees.DataSource = list;
-            // list.Add(new Employee() { Id = 123, FirstName = "mica" });
-
+           
             bsEmployees.DataSource = employees;
             // bsEmployees.Filter = "FirstName = 'Pera'";
             // bsEmployees.Sort = "LastName";
@@ -74,6 +61,11 @@ namespace ComputerStore
             };
             gvEmployees.Columns.Add(colSelect);
             gvEmployees.Columns["IdTitle"].Visible = false;
+            gvEmployees.Columns["IsActive"].Visible = false;
+            gvEmployees.Columns["IdPerson"].Visible = false;
+            gvEmployees.Columns["CellPhone"].Visible = false;
+            gvEmployees.Columns["Address"].Visible = false;
+            gvEmployees.Columns["City"].Visible = false;
         }
 
         private void btnFirstEmployee_Click(object sender, EventArgs e)
@@ -98,10 +90,9 @@ namespace ComputerStore
 
         private void btnShowOrdersEmployee_Click(object sender, EventArgs e)
         {
-            // new FormOrders().ShowDialog();
             if (FormOrders.CanCreateNewForm)
             {                
-                var frm = new FormOrders();
+                FormOrders frm = new FormOrders();
                 frm.RoditeljskaForma = this;
                 frm.ShowDialog();
                // Console.Write("");
@@ -163,28 +154,53 @@ namespace ComputerStore
 
         private void btnDeleteEmployee_Click(object sender, EventArgs e)
         {
-            //var clms = gvEmployees.Columns;
-            //gvEmployees.Rows[0]
+            
             List<int> IDs = new List<int>(); // id-evi zaposlenih koji su selektovani
+            List<int> indexs = new List<int>();
             foreach (DataGridViewRow row in gvEmployees.Rows)
             {
                 DataGridViewCell selected = row.Cells["Select"];
                 if (selected.Value != null && (bool)selected.Value == true) // da li je Select cekirano
                 {  
                     // Console.WriteLine(row.Cells["Id"].Value);
-                    DataGridViewCell idCell = row.Cells["Id"];
-                    IDs.Add((int)idCell.Value);
+                    DataGridViewCell idCells = row.Cells["Id"];
+                    IDs.Add((int)(idCells.Value));
+
+                    int idIndex = row.Index;
+                    indexs.Add(idIndex);
+
                 }
             }
             //B DataAccess.DeleteEmployees(IDs);
-            
-            DataAccess.ArchiveEmployees(IDs);
-            //// ponovo ucitaj sve zaposlene
-            //List<Employee> employees = DataAccess.ReadAllEmployees();
-            //bsEmployees.DataSource = employees;
-            //gvEmployees.DataSource = bsEmployees;
 
-            ReadEmployeesFromDb();
+            // Update
+            DataAccess.ArchiveEmployees(IDs);
+            //// ponovo ucitaj aktivne zaposlene
+            // List<Employee> employees = DataAccess.ReadActiveEmployees();
+            // bsEmployees.DataSource = employees;
+            // gvEmployees.DataSource = bsEmployees;
+
+            // ReadEmployeesFromDb();
+
+            foreach (int idIndex in indexs)
+            {
+                gvEmployees.Rows.RemoveAt(idIndex);
+            }
+
+        }
+
+        private void btnDetailsEmployee_Click(object sender, EventArgs e)
+        {
+            
+            if (FormDetailsEmployee.CanCreateNewForm)
+            {
+                FormDetailsEmployee frm = new FormDetailsEmployee();
+                frm.ShowDialog();
+            }
+
+
+
+
         }
     }
 }

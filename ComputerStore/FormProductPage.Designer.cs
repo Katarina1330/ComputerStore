@@ -157,6 +157,7 @@ namespace ComputerStore
             this.btnDeleteProduct.TabIndex = 11;
             this.btnDeleteProduct.Text = "Delete";
             this.btnDeleteProduct.UseVisualStyleBackColor = true;
+            this.btnDeleteProduct.Click += new System.EventHandler(this.btnDeleteProduct_Click);
             // 
             // btnShowEmployeesProduct
             // 

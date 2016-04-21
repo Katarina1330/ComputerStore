@@ -151,6 +151,7 @@ namespace ComputerStore
             this.btnDetailsEmployee.TabIndex = 7;
             this.btnDetailsEmployee.Text = "Details";
             this.btnDetailsEmployee.UseVisualStyleBackColor = true;
+            this.btnDetailsEmployee.Click += new System.EventHandler(this.btnDetailsEmployee_Click);
             // 
             // btnEditEmployee
             // 

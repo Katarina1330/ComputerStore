@@ -126,5 +126,10 @@ namespace ComputerStore
         {
             counter--;
         }
+
+        private void btnDeleteProduct_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
