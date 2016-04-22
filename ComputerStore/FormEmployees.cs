@@ -147,7 +147,7 @@ namespace ComputerStore
             var emp = (Employee)obj;
            
            
-            var frm = new FormOrders(emp.Id);
+            var frm = new FormOrders(emp.IdEmployee);
             frm.RoditeljskaForma = this;
             frm.ShowDialog();
         }
@@ -163,7 +163,7 @@ namespace ComputerStore
                 if (selected.Value != null && (bool)selected.Value == true) // da li je Select cekirano
                 {  
                     // Console.WriteLine(row.Cells["Id"].Value);
-                    DataGridViewCell idCells = row.Cells["Id"];
+                    DataGridViewCell idCells = row.Cells["IdEmployee"];
                     IDs.Add((int)(idCells.Value));
 
                     int idIndex = row.Index;
@@ -182,7 +182,7 @@ namespace ComputerStore
 
             // ReadEmployeesFromDb();
 
-            foreach (int idIndex in indexs)
+            foreach (int idIndex in indexs.OrderByDescending(p => p).ToList())
             {
                 gvEmployees.Rows.RemoveAt(idIndex);
             }

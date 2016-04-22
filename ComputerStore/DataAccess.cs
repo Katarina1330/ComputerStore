@@ -26,7 +26,7 @@ namespace ComputerStore
                 while(reader.Read() == true)
                 {
                     Employee employee = new Employee();
-                    employee.Id = (int)reader["IdEmployee"];
+                    employee.IdEmployee = (int)reader["IdEmployee"];
                     employee.LastName = (string)reader["LastName"];
                     employee.FirstName = (string)reader["FirstName"];
                     employee.IdTitle = (int)reader["IdTitle"];
@@ -76,7 +76,7 @@ namespace ComputerStore
                 {
 
                     Employee employee = new Employee();
-                    employee.Id = Convert.ToInt32(reader["IdEmployee"]);
+                    employee.IdEmployee = Convert.ToInt32(reader["IdEmployee"]);
                     employee.LastName = reader[1].ToString();
                     employee.FirstName = (string)reader["FirstName"];
                     // employee.FirstName = reader.GetString(2);
@@ -102,7 +102,7 @@ namespace ComputerStore
             return employees;
         }
 
-        public static List<Product> ReadAllProduct()
+        public static List<Product> ReadAllProduct(bool all )
         {
 
             List<Product> products = new List<Product>();
@@ -111,8 +111,17 @@ namespace ComputerStore
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("select * from product", conn);
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlCommand cmd = new SqlCommand();
+                if (all == true)
+                {
+                    cmd = new SqlCommand("select * from product", conn);
+                }
+                else
+                {
+                    cmd = new SqlCommand("select * from product  where InStore = 1", conn);
+                }
+                    SqlDataReader reader = cmd.ExecuteReader();
+                
 
                 while (reader.Read() == true)
                 {
@@ -122,6 +131,11 @@ namespace ComputerStore
                     product.PriceProduct = (decimal)reader["PriceProduct"];
                     product.Description = Convert.ToString(reader["Description"]);
                     product.Brand = Convert.ToString(reader["Brand"]);
+                    product.InStore = (bool)reader["InStore"];
+
+                    product.MadeIn = Convert.ToString(reader["MadeIn"]);
+                    product.BuyFromCompany = Convert.ToString(reader["BuyFromCompany"]);
+                    product.CellPhoneCompany = Convert.ToString(reader["CellPhoneCompany"]);
 
                     products.Add(product);
                 }
@@ -320,6 +334,29 @@ namespace ComputerStore
             catch (Exception ex)
             {
                 // Console.WriteLine("greska: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static void ArchiveProducts(List<int> IDs)
+        {
+            SqlConnection conn = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+
+            try
+            {
+                conn.Open();
+                string filter = string.Join(", ", IDs);
+                SqlCommand cmd = new SqlCommand("UPDATE Product SET InStore = 0 where IdProduct IN ("
+                   + filter + ")", conn);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
             finally
             {

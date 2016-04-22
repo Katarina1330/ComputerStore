@@ -35,16 +35,23 @@ namespace ComputerStore
 
         private void Product_Page_Load(object sender, EventArgs e)
         {
-            var products = DataAccess.ReadAllProduct();
+            var products = DataAccess.ReadAllProduct(false);
             bsProducts.DataSource = products;
             gvProduct.DataSource = bsProducts;
 
             var colSelect = new DataGridViewCheckBoxColumn()
             {
                 HeaderText = "Select",
-                Width = 50
+                Name = "Select",
+                Width = 50,
+                TrueValue = true,
+                FalseValue = false
             };
             gvProduct.Columns.Add(colSelect);
+            gvProduct.Columns["InStore"].Visible = false;
+            gvProduct.Columns["MadeIn"].Visible = false;
+            gvProduct.Columns["BuyFromCompany"].Visible = false;
+            gvProduct.Columns["CellPhoneCompany"].Visible = false;
         }
 
         private void btnFirstProduct_Click(object sender, EventArgs e)
@@ -129,7 +136,37 @@ namespace ComputerStore
 
         private void btnDeleteProduct_Click(object sender, EventArgs e)
         {
+            List<int> IDs = new List<int>();
+            List<int> indexs = new List<int>();
 
+            foreach (DataGridViewRow row in gvProduct.Rows)
+            {
+                DataGridViewCell selected = row.Cells["Select"];
+                if (selected.Value != null && (bool)selected.Value == true)
+                {
+                    DataGridViewCell idCell = row.Cells["IdProduct"];
+                    IDs.Add((int)idCell.Value);
+
+                    int idIndex = row.Index;
+                    indexs.Add(idIndex);
+                }
+            }
+
+            DataAccess.ArchiveProducts(IDs);
+
+            foreach (int idIndex in indexs.OrderByDescending(p => p).ToList())
+            {
+                gvProduct.Rows.RemoveAt(idIndex);
+            }
+        }
+
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            if (FormDetailsProduct.CanCreateNewForm)
+            {
+                FormDetailsProduct frm = new FormDetailsProduct();
+                frm.ShowDialog();
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ComputerStore
     public class Employee
     {
         public bool IsActive { get; set; }
-        public int Id { get; set; }
+        public int IdEmployee { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public int IdTitle { get; set; }
