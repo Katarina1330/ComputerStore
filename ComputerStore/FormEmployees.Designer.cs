@@ -200,6 +200,7 @@ namespace ComputerStore
             this.btnCreateNewEmployee.TabIndex = 12;
             this.btnCreateNewEmployee.Text = "Create New Employee";
             this.btnCreateNewEmployee.UseVisualStyleBackColor = true;
+            this.btnCreateNewEmployee.Click += new System.EventHandler(this.btnCreateNewEmployee_Click);
             // 
             // FormEmployees
             // 

@@ -142,14 +142,21 @@ namespace ComputerStore
 
         private void MenuItemEmployeesOrders_Click(object sender, EventArgs e)
         {
-            var obj = gvEmployees.CurrentRow.DataBoundItem;
-            // var emp = obj as Employee;
-            var emp = (Employee)obj;
-           
-           
-            var frm = new FormOrders(emp.IdEmployee);
-            frm.RoditeljskaForma = this;
-            frm.ShowDialog();
+            if (gvEmployees.CurrentRow != null)
+            {
+                var obj = gvEmployees.CurrentRow.DataBoundItem;
+                // var emp = obj as Employee;
+                var emp = (Employee)obj;
+
+
+                var frm = new FormOrders(emp.IdEmployee);
+                frm.RoditeljskaForma = this;
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate odabrati nkog zaposlenog.");
+            }
         }
 
         private void btnDeleteEmployee_Click(object sender, EventArgs e)
@@ -191,16 +198,17 @@ namespace ComputerStore
 
         private void btnDetailsEmployee_Click(object sender, EventArgs e)
         {
-            
-            if (FormDetailsEmployee.CanCreateNewForm)
-            {
-                FormDetailsEmployee frm = new FormDetailsEmployee();
-                frm.ShowDialog();
-            }
+            new FormDetailsEmployee().ShowDialog();
+        }
 
+        private void btnCreateNewEmployee_Click(object sender, EventArgs e)
+        {
+            new FormNewEmployee().ShowDialog();
+            // ucitam sve employees iz baze
 
-
-
+            List<Employee> employees = DataAccess.ReadActiveEmployees();
+            bsEmployees.DataSource = employees;
+            gvEmployees.DataSource = bsEmployees;
         }
     }
 }

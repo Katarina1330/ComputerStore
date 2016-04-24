@@ -23,6 +23,8 @@ namespace ComputerStore
             InitializeComponent();
             counter++;
             this.idEmployee = idEmployee;
+
+            // Text += " for ... employee"
         }
 
         private int idEmployee = -1;

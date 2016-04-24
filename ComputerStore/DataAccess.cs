@@ -9,6 +9,34 @@ namespace ComputerStore
 {
     public class DataAccess
     {
+        public static List<Title> ReadAllTitle()
+        {
+            List<Title> titles = new List<Title>();
+            try
+            {
+                SqlConnection conn = new SqlConnection(
+                   Properties.Settings.Default.ComputerStoreConnectionString);
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("select * from Titles", conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read() == true)
+                {
+                    Title title = new Title();
+                    title.TitleName = (string)reader["TitleName"];
+                    title.IdTitle = (int)reader["idTitle"];
+
+                    titles.Add(title);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return titles;
+        }
+
         public static List<Employee> ReadAllEmployes()
         {
             List<Employee> employees = new List<Employee>();
@@ -22,8 +50,8 @@ namespace ComputerStore
                                  " FROM Employees INNER JOIN Titles ON Employees.IdTitle = Titles.IdTitle ", conn);
 
                 SqlDataReader reader = cmd.ExecuteReader();
-                
-                while(reader.Read() == true)
+
+                while (reader.Read() == true)
                 {
                     Employee employee = new Employee();
                     employee.IdEmployee = (int)reader["IdEmployee"];
@@ -32,10 +60,11 @@ namespace ComputerStore
                     employee.IdTitle = (int)reader["IdTitle"];
                     employee.IsActive = (bool)reader["IsActive"];
                     employee.TitleName = (string)reader["TitleName"];
-                    employee.IdPerson = (string)reader["IdPerson"];
-                    employee.CellPhone = (string)reader["CellPhone"];
-                    employee.Address = (string)reader["Address"];
-                    employee.City = (string)reader["City"];
+
+                    employee.IdPerson = Convert.ToString(reader["IdPerson"]);
+                    employee.CellPhone = Convert.ToString(reader["CellPhone"]);
+                    employee.Address = Convert.ToString(reader["Address"]);
+                    employee.City = Convert.ToString(reader["City"]);
 
                     employees.Add(employee);
                 }
@@ -44,12 +73,36 @@ namespace ComputerStore
 
                 conn.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
 
             return employees;
+        }
+
+        public static void CreateNewEmployee(string lastName, string firstName, int idTitle)
+        {
+
+            SqlConnection conn = new SqlConnection(
+                   Properties.Settings.Default.ComputerStoreConnectionString);
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("INSERT INTO Employees (LastName, FirstName, IdTitle) " +
+                    " VALUES(@LastName, '" + firstName + "', " + idTitle + ")", conn);
+                cmd.Parameters.AddWithValue("@LastName", lastName);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         public static List<Employee> ReadActiveEmployees()
@@ -84,7 +137,7 @@ namespace ComputerStore
                     employee.IdTitle = (int)reader["IdTitle"];
                     employee.IsActive = (bool)reader["IsActive"];
                     employee.TitleName = (string)reader["TitleName"];
-                    
+
 
 
                     employees.Add(employee);
@@ -102,7 +155,7 @@ namespace ComputerStore
             return employees;
         }
 
-        public static List<Product> ReadAllProduct(bool all )
+        public static List<Product> ReadAllProduct(bool all)
         {
 
             List<Product> products = new List<Product>();
@@ -120,8 +173,8 @@ namespace ComputerStore
                 {
                     cmd = new SqlCommand("select * from product  where InStore = 1", conn);
                 }
-                    SqlDataReader reader = cmd.ExecuteReader();
-                
+                SqlDataReader reader = cmd.ExecuteReader();
+
 
                 while (reader.Read() == true)
                 {
@@ -245,7 +298,7 @@ namespace ComputerStore
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Orders.IdOrder, Orders.DateOrder, Orders.CashRegister, Orders.PriceOrder, Orders.IdEmployee, Orders.IdCustomer, Orders.Details, Employees.LastName, Employees.FirstName, Customers.LastNameCustomer, Customers.FirstNameCustomer" + 
+                SqlCommand cmd = new SqlCommand("SELECT Orders.IdOrder, Orders.DateOrder, Orders.CashRegister, Orders.PriceOrder, Orders.IdEmployee, Orders.IdCustomer, Orders.Details, Employees.LastName, Employees.FirstName, Customers.LastNameCustomer, Customers.FirstNameCustomer" +
                     " FROM Orders INNER JOIN Employees ON Employees.IdEmployee = Orders.IdEmployee" +
                                 " INNER JOIN Customers ON Customers.IdCustomer = Orders.IdCustomer where Orders.IdEmployee =" + idEmployee, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -373,7 +426,7 @@ namespace ComputerStore
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("SELECT Orders.IdOrder, Orders.DateOrder, Orders.CashRegister, Orders.PriceOrder, Orders.IdEmployee, Orders.IdCustomer, Orders.Details, Employees.LastName, Employees.FirstName, Customers.LastNameCustomer, Customers.FirstNameCustomer " +
-                              " FROM Orders INNER JOIN Employees ON Employees.IdEmployee = Orders.IdEmployee " + 
+                              " FROM Orders INNER JOIN Employees ON Employees.IdEmployee = Orders.IdEmployee " +
                                           " INNER JOIN Customers ON Customers.IdCustomer = Orders.IdCustomer", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
 

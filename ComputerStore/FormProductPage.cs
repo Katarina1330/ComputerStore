@@ -162,11 +162,7 @@ namespace ComputerStore
 
         private void btnDetails_Click(object sender, EventArgs e)
         {
-            if (FormDetailsProduct.CanCreateNewForm)
-            {
-                FormDetailsProduct frm = new FormDetailsProduct();
-                frm.ShowDialog();
-            }
+            new FormDetailsProduct().ShowDialog();
         }
     }
 }
