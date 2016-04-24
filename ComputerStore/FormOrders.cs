@@ -18,11 +18,12 @@ namespace ComputerStore
             counter++;
         }
 
-        public FormOrders(int idEmployee)
+        public FormOrders(int idEmployee, string nameEmployee)
         {
             InitializeComponent();
             counter++;
             this.idEmployee = idEmployee;
+            this.Text =  "Form Orders" + nameEmployee;
 
             // Text += " for ... employee"
         }
@@ -109,7 +110,7 @@ namespace ComputerStore
            // MessageBox.Show(order.IdOrder.ToString());
 
 
-             List<OrderItem> orderItems = DataAccess.ReadOrderItemsForOneOrder(order.IdOrder);
+            List<OrderItem> orderItems = DataAccess.ReadOrderItemsForOneOrder(order.IdOrder);
             bsOrderItems.DataSource = orderItems;
             gvOrderItems.DataSource = bsOrderItems;
         }

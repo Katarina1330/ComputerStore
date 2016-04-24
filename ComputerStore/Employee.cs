@@ -11,7 +11,7 @@ namespace ComputerStore
         public bool IsActive { get; set; }
         public int IdEmployee { get; set; }
         public string LastName { get; set; }
-        public string FirstName { get; set; }
+        public string firstName { get; set; }
         public int IdTitle { get; set; }
        
 

@@ -29,16 +29,17 @@ namespace ComputerStore
             cmbTitle.DisplayMember = "TitleName";
             cmbTitle.ValueMember = "IdTitle";
             cmbTitle.SelectedItem = null;
+            cmbTitle.Text = "Izaberi sa liste";
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
             if (txtLastName.Text != "" && txtFirstName.Text != ""
-                && cmbTitle.SelectedItem != null)
+                 && cmbTitle.SelectedItem != null  )
             {
                 // insert za employee-a
                 DataAccess.CreateNewEmployee(txtLastName.Text, txtFirstName.Text
-                    , (int)cmbTitle.SelectedValue);
+                    , (int)cmbTitle.SelectedValue, txtIdPerson.Text, txtCellPhone.Text, txtAddress.Text, txtCity.Text);
 
                 // resetovanje polja za unos
                 //txtLastName.Text = "";
@@ -52,6 +53,11 @@ namespace ComputerStore
                 MessageBox.Show("Morate uneti sve podatke.");
             }
 
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

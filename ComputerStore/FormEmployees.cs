@@ -146,12 +146,13 @@ namespace ComputerStore
             {
                 var obj = gvEmployees.CurrentRow.DataBoundItem;
                 // var emp = obj as Employee;
-                var emp = (Employee)obj;
+                Employee employee = (Employee)obj;
 
+                string nameEmployee = "-" + employee.firstName + " " + employee.LastName;
 
-                var frm = new FormOrders(emp.IdEmployee);
-                frm.RoditeljskaForma = this;
-                frm.ShowDialog();
+                FormOrders formOrders  = new FormOrders(employee.IdEmployee, nameEmployee);
+                formOrders.RoditeljskaForma = this;
+                formOrders.ShowDialog();
             }
             else
             {

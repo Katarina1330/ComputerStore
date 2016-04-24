@@ -56,7 +56,7 @@ namespace ComputerStore
                     Employee employee = new Employee();
                     employee.IdEmployee = (int)reader["IdEmployee"];
                     employee.LastName = (string)reader["LastName"];
-                    employee.FirstName = (string)reader["FirstName"];
+                    employee.firstName = (string)reader["FirstName"];
                     employee.IdTitle = (int)reader["IdTitle"];
                     employee.IsActive = (bool)reader["IsActive"];
                     employee.TitleName = (string)reader["TitleName"];
@@ -81,7 +81,7 @@ namespace ComputerStore
             return employees;
         }
 
-        public static void CreateNewEmployee(string lastName, string firstName, int idTitle)
+        public static void CreateNewEmployee(string lastName, string firstName, int idTitle, string IdPerson, string CellPhone, string Address, string City)
         {
 
             SqlConnection conn = new SqlConnection(
@@ -90,9 +90,13 @@ namespace ComputerStore
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Employees (LastName, FirstName, IdTitle) " +
-                    " VALUES(@LastName, '" + firstName + "', " + idTitle + ")", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Employees (LastName, FirstName, IdTitle, IdPerson, CellPhone, Address, City) " +
+                    " VALUES(@LastName, '" + firstName + "', " + idTitle + ", @IdPerson, @CellPhone, @Address, @City" + ")", conn);
                 cmd.Parameters.AddWithValue("@LastName", lastName);
+                cmd.Parameters.AddWithValue("@IdPerson", IdPerson);
+                cmd.Parameters.AddWithValue("@CellPhone", CellPhone);
+                cmd.Parameters.AddWithValue("@Address", Address);
+                cmd.Parameters.AddWithValue("@City", City);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -131,7 +135,7 @@ namespace ComputerStore
                     Employee employee = new Employee();
                     employee.IdEmployee = Convert.ToInt32(reader["IdEmployee"]);
                     employee.LastName = reader[1].ToString();
-                    employee.FirstName = (string)reader["FirstName"];
+                    employee.firstName = (string)reader["FirstName"];
                     // employee.FirstName = reader.GetString(2);
                     // employee.IdTitle = reader["IdTitle"].ToString();
                     employee.IdTitle = (int)reader["IdTitle"];
