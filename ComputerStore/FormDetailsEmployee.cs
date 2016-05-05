@@ -45,6 +45,7 @@ namespace ComputerStore
             gvDetailsEmployee.DataSource = bsDetailsEmployee;
 
             gvDetailsEmployee.Columns["IdTitle"].Visible = false;
+            gvDetailsEmployee.Columns["EmployeeName"].Visible = false;
         }
 
         private void FormDetailsEmployee_FormClosed(object sender, FormClosedEventArgs e)

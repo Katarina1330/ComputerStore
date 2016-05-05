@@ -9,14 +9,15 @@ namespace ComputerStore
 {
     public class DataAccess
     {
+
         public static List<Title> ReadAllTitle()
         {
             List<Title> titles = new List<Title>();
             try
             {
                 SqlConnection conn = new SqlConnection(
-                   Properties.Settings.Default.ComputerStoreConnectionString);
-                conn.Open();
+                                        Properties.Settings.Default.ComputerStoreConnectionString);
+                                        conn.Open();
 
                 SqlCommand cmd = new SqlCommand("select * from Titles", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -81,6 +82,163 @@ namespace ComputerStore
             return employees;
         }
 
+       /// <summary>
+       /// Citanje zaposlenih iz baze...
+       /// </summary>
+       /// <param name="filter">Deo imena ili prezimena koji trazimo.</param>
+       /// <returns>Listu zaposlenih koji zadovoljavaju uslov.</returns>
+        public static List<Employee> ReadEmployesSearch(string filter)
+        {
+            List<Employee> employees = new List<Employee>();
+            try
+            {
+                SqlConnection conn = new SqlConnection(
+                    Properties.Settings.Default.ComputerStoreConnectionString);
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("SELECT  Employees.IdEmployee, Employees.LastName, Employees.FirstName, Employees.IdTitle, Employees.IsActive, Titles.TitleName, Employees.IdPerson, Employees.CellPhone, Employees.Address, Employees.City " +
+                                 " FROM Employees INNER JOIN Titles ON Employees.IdTitle = Titles.IdTitle " +
+                                 " where isActive = 1 AND LastName + ' ' + FirstName LIKE '%" + filter + "%'  ", conn);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read() == true)
+                {
+                    Employee employee = new Employee();
+                    employee.IdEmployee = (int)reader["IdEmployee"];
+                    employee.LastName = (string)reader["LastName"];
+                    employee.firstName = (string)reader["FirstName"];
+                    employee.IdTitle = (int)reader["IdTitle"];
+                    employee.IsActive = (bool)reader["IsActive"];
+                    employee.TitleName = (string)reader["TitleName"];
+
+                    employee.IdPerson = Convert.ToString(reader["IdPerson"]);
+                    employee.CellPhone = Convert.ToString(reader["CellPhone"]);
+                    employee.Address = Convert.ToString(reader["Address"]);
+                    employee.City = Convert.ToString(reader["City"]);
+
+                    employees.Add(employee);
+                }
+
+                reader.Close();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return employees;
+        }
+
+        public static int GetIdTitle(Title title)
+        {
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+
+           // Title title = new Title();
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("select IdTitle from Titles where TitleName = '" + title.TitleName + "' ", conn);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read() == true)
+                {
+                    title.IdTitle = (int)reader["idTitle"];
+                    //title.TitleName = (string)reader["TitleName"];
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+               
+               
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return title.IdTitle;
+           
+        }
+
+        public static void EditEmployee(Employee employee)
+        {
+            SqlConnection conn = new SqlConnection(
+                   Properties.Settings.Default.ComputerStoreConnectionString);
+
+            try
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("update Employees set City = '" + employee.City + "', FirstName = '" + employee.firstName + "', IdTitle = '" + employee.IdTitle +
+                                  "', LastName = '" + employee.LastName + "', IdPerson = '" + employee.IdPerson + "', CellPhone = '" + employee.CellPhone + "', Address = '" + employee.Address + 
+                                  "' where IdEmployee = '" + employee.IdEmployee + "'", conn);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+        }
+
+        public static Employee GetEmployeeById(int idEmployee)
+        {
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+            Employee employee = new Employee();
+            try
+            {
+                conn.Open();
+
+                //select*
+                //from Employees
+                //where IdEmployee = 2
+
+                SqlCommand cmd = new SqlCommand(" select * from Employees inner join Titles on Employees.IdTitle = Titles.IdTitle where IdEmployee =  " + idEmployee, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read() == true)
+                {
+                    employee.IdEmployee = (int)reader["IdEmployee"];
+                    employee.LastName = (string)reader["LastName"];
+                    employee.firstName = (string)reader["FirstName"];
+                    employee.IdTitle = (int)reader["IdTitle"];
+                    employee.IsActive = (bool)reader["IsActive"];
+                    employee.TitleName = (string)reader["TitleName"];
+
+                    employee.IdPerson = Convert.ToString(reader["IdPerson"]);
+                    employee.CellPhone = Convert.ToString(reader["CellPhone"]);
+                    employee.Address = Convert.ToString(reader["Address"]);
+                    employee.City = Convert.ToString(reader["City"]);
+                }
+
+                reader.Close();
+                
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return employee;
+        }
+
         public static void CreateNewEmployee(string lastName, string firstName, int idTitle, string IdPerson, string CellPhone, string Address, string City)
         {
 
@@ -142,7 +300,7 @@ namespace ComputerStore
                     employee.IsActive = (bool)reader["IsActive"];
                     employee.TitleName = (string)reader["TitleName"];
 
-
+                    employee.EmployeeName = (string)reader["LastName"] + " " + (string)reader["FirstName"];
 
                     employees.Add(employee);
                 }
@@ -361,7 +519,155 @@ namespace ComputerStore
             catch (Exception ex)
             {
                 // Console.WriteLine("greska: " + ex.Message);
-                // ???? MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static void DeleteOrder(List<int> IDs)
+        {
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                conn.Open();
+
+                var filter = string.Join(", ", IDs);
+                SqlCommand cmd = new SqlCommand("delete from OrderItems where IdOrder IN (" + filter
+                                                + ") delete from Orders where IdOrder IN ("
+                                                + filter + ")", conn);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static int InsertOrderItem(OrderItem orderItem)
+        {
+            //insert into OrderItems(IdOrder, IdProduct, Quantity, OrderItemPrice)
+            //values(39, 5, 1, 50)
+            //SELECT SCOPE_IDENTITY()
+
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("insert into OrderItems(IdOrder, IdProduct, Quantity, OrderItemPrice)" 
+                    + " values(@IdOrder, @IdProduct, @Quantity, @OrderItemPrice); "
+                    + " SELECT SCOPE_IDENTITY(); ", conn);
+                cmd.Parameters.AddWithValue("IdOrder", orderItem.IdOrder);
+                cmd.Parameters.AddWithValue("IdProduct", orderItem.IdProduct);
+                cmd.Parameters.AddWithValue("Quantity", orderItem.Quantity);
+                cmd.Parameters.AddWithValue("OrderItemPrice", orderItem.OrderItemPrice);
+
+                return (int)(decimal)cmd.ExecuteScalar();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return -1;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+        }
+
+        public static int InsertCustomer(Customer customer)
+        {
+            // INSERT INTO Customers(FirstNameCustomer, LastNameCustomer, ID)
+            // VALUES(@FirstNameCustomer, @LastNameCustomer, @ID);
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO Customers(FirstNameCustomer, LastNameCustomer, ID) "
+                     + " VALUES(@FirstNameCustomer, @LastNameCustomer, @ID); "
+                     + " SELECT SCOPE_IDENTITY(); ", conn); // to get the new ID value
+                cmd.Parameters.AddWithValue("FirstNameCustomer", customer.FirstNameCustomer);
+                cmd.Parameters.AddWithValue("LastNameCustomer", customer.LastNameCustomer);
+                cmd.Parameters.AddWithValue("ID", customer.ID);
+
+                return (int)(decimal)cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return -1;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static void UpdateOrderPrice(int idOrder, decimal priceOrder)
+        {
+            // Update Orders
+            //set PriceOrder = '200'
+            //where IdOrder in (109)
+
+            SqlConnection conn = new SqlConnection(
+               Properties.Settings.Default.ComputerStoreConnectionString);
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("UPDATE Orders SET PriceOrder = " + priceOrder  
+                                                + " WHERE IdOrder = " + idOrder, conn);
+
+
+                cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static int InsertOrder(Order order)
+        {
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                
+                conn.Open();
+                
+                SqlCommand cmd = new SqlCommand("INSERT INTO Orders ( DateOrder, CashRegister, IdEmployee, Details, IdCustomer, PriceOrder) "
+                     + " VALUES( @DateOrder, @CashRegister, @IdEmployee, @Details, @IdCustomer, @PriceOrder); "
+                     + " SELECT SCOPE_IDENTITY(); " , conn);
+                cmd.Parameters.AddWithValue("DateOrder", order.DateOrder);
+                cmd.Parameters.AddWithValue("CashRegister", order.CashRegister);
+                cmd.Parameters.AddWithValue("IdEmployee", order.IdEmployee);
+                cmd.Parameters.AddWithValue("Details", order.Details);
+                cmd.Parameters.AddWithValue("IdCustomer", order.IdCustomer);
+                cmd.Parameters.AddWithValue("PriceOrder", order.PriceOrder);
+
+                return (int)(decimal)cmd.ExecuteScalar();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return -1;
             }
             finally
             {
@@ -455,7 +761,7 @@ namespace ComputerStore
 
             catch (Exception ex)
             {
-
+                throw;
             }
             finally
             {

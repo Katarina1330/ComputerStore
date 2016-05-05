@@ -66,6 +66,7 @@ namespace ComputerStore
             this.txtSearchEmployee.Name = "txtSearchEmployee";
             this.txtSearchEmployee.Size = new System.Drawing.Size(152, 20);
             this.txtSearchEmployee.TabIndex = 1;
+            this.txtSearchEmployee.TextChanged += new System.EventHandler(this.txtSearchEmployee_TextChanged);
             // 
             // btnPreviousEmployee
             // 
@@ -101,6 +102,8 @@ namespace ComputerStore
             // 
             this.gvEmployees.AllowUserToAddRows = false;
             this.gvEmployees.AllowUserToDeleteRows = false;
+            this.gvEmployees.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gvEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvEmployees.ContextMenuStrip = this.contextMenuStrip1;
             this.gvEmployees.Location = new System.Drawing.Point(15, 53);
@@ -142,6 +145,7 @@ namespace ComputerStore
             this.btnAddOrderEmployee.TabIndex = 6;
             this.btnAddOrderEmployee.Text = "Add Order";
             this.btnAddOrderEmployee.UseVisualStyleBackColor = true;
+            this.btnAddOrderEmployee.Click += new System.EventHandler(this.btnAddOrderEmployee_Click);
             // 
             // btnDetailsEmployee
             // 
@@ -161,6 +165,7 @@ namespace ComputerStore
             this.btnEditEmployee.TabIndex = 8;
             this.btnEditEmployee.Text = "Edit";
             this.btnEditEmployee.UseVisualStyleBackColor = true;
+            this.btnEditEmployee.Click += new System.EventHandler(this.btnEditEmployee_Click);
             // 
             // btnDeleteEmployee
             // 

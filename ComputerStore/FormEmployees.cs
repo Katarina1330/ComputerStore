@@ -38,14 +38,19 @@ namespace ComputerStore
         private void FromEmployees_Load(object sender, EventArgs e)
         {
             ReadEmployeesFromDb();
-           // gvEmployees.Rows[0].Selected = true;
+            // gvEmployees.Rows[0].Selected = true;
         }
 
-        private void ReadEmployeesFromDb()
+        private void ReadEmployeesFromDb(string filter = null) // opcioni parametar
         {
-           // gvEmployees.Columns.Clear();
-            var employees = DataAccess.ReadActiveEmployees();
-           
+            // gvEmployees.Columns.Clear();
+            List<Employee> employees = null;
+            if (filter == null)
+                employees = DataAccess.ReadActiveEmployees();
+            else
+                employees = DataAccess.ReadEmployesSearch(filter);
+
+            gvEmployees.Columns.Clear();
             bsEmployees.DataSource = employees;
             // bsEmployees.Filter = "FirstName = 'Pera'";
             // bsEmployees.Sort = "LastName";
@@ -58,6 +63,7 @@ namespace ComputerStore
                 Width = 50,
                 TrueValue = true,
                 FalseValue = false
+                // AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             };
             gvEmployees.Columns.Add(colSelect);
             gvEmployees.Columns["IdTitle"].Visible = false;
@@ -66,6 +72,9 @@ namespace ComputerStore
             gvEmployees.Columns["CellPhone"].Visible = false;
             gvEmployees.Columns["Address"].Visible = false;
             gvEmployees.Columns["City"].Visible = false;
+            gvEmployees.Columns["EmployeeName"].Visible = false;
+            gvEmployees.Columns["LastName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gvEmployees.Columns["FirstName"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void btnFirstEmployee_Click(object sender, EventArgs e)
@@ -91,18 +100,18 @@ namespace ComputerStore
         private void btnShowOrdersEmployee_Click(object sender, EventArgs e)
         {
             if (FormOrders.CanCreateNewForm)
-            {                
+            {
                 FormOrders frm = new FormOrders();
                 frm.RoditeljskaForma = this;
                 frm.ShowDialog();
-               // Console.Write("");
+                // Console.Write("");
             }
             else
             {
                 var response = MessageBox.Show("Form Orders is already opened. Do you want to close this form?"
                     , "Form Orders", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if(response == DialogResult.Yes)
+                if (response == DialogResult.Yes)
                 {
                     this.Close();
                     if (!(RoditeljskaForma is FormOrders))
@@ -118,13 +127,13 @@ namespace ComputerStore
                 var frm = new FormProductPage();
                 frm.RoditeljskaForma = this;
                 frm.ShowDialog();
-             }
+            }
             else
             {
-               var response = MessageBox.Show("Form Products is already opened. Do you want to close this form?"
-                   ,"Form Product Page", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var response = MessageBox.Show("Form Products is already opened. Do you want to close this form?"
+                    , "Form Product Page", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if(response == DialogResult.Yes)
+                if (response == DialogResult.Yes)
                 {
                     this.Close();
                     if (!(RoditeljskaForma is FormProductPage))
@@ -144,13 +153,13 @@ namespace ComputerStore
         {
             if (gvEmployees.CurrentRow != null)
             {
-                var obj = gvEmployees.CurrentRow.DataBoundItem;
+                Object obj = gvEmployees.CurrentRow.DataBoundItem;
                 // var emp = obj as Employee;
                 Employee employee = (Employee)obj;
 
                 string nameEmployee = "-" + employee.firstName + " " + employee.LastName;
 
-                FormOrders formOrders  = new FormOrders(employee.IdEmployee, nameEmployee);
+                FormOrders formOrders = new FormOrders(employee.IdEmployee, nameEmployee);
                 formOrders.RoditeljskaForma = this;
                 formOrders.ShowDialog();
             }
@@ -162,14 +171,14 @@ namespace ComputerStore
 
         private void btnDeleteEmployee_Click(object sender, EventArgs e)
         {
-            
+
             List<int> IDs = new List<int>(); // id-evi zaposlenih koji su selektovani
             List<int> indexs = new List<int>();
             foreach (DataGridViewRow row in gvEmployees.Rows)
             {
                 DataGridViewCell selected = row.Cells["Select"];
                 if (selected.Value != null && (bool)selected.Value == true) // da li je Select cekirano
-                {  
+                {
                     // Console.WriteLine(row.Cells["Id"].Value);
                     DataGridViewCell idCells = row.Cells["IdEmployee"];
                     IDs.Add((int)(idCells.Value));
@@ -210,6 +219,44 @@ namespace ComputerStore
             List<Employee> employees = DataAccess.ReadActiveEmployees();
             bsEmployees.DataSource = employees;
             gvEmployees.DataSource = bsEmployees;
+        }
+
+        private void btnAddOrderEmployee_Click(object sender, EventArgs e)
+        {
+            FormAddOrder frm = new FormAddOrder();
+            frm.ShowDialog();
+
+            // btnAddOrderEmployee_Click(this, EventArgs.Empty);
+
+        }
+
+        private void btnEditEmployee_Click(object sender, EventArgs e)
+        {
+            if (gvEmployees.CurrentCell != null)
+            {
+                Object obj = gvEmployees.CurrentRow.DataBoundItem;
+                Employee employee = (Employee)obj;
+
+                string NameEmployee = "-" + employee.firstName + " " + employee.LastName;
+
+                FormEditEmployee frm = new FormEditEmployee(employee.IdEmployee, NameEmployee);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate odabrati nkog zaposlenog.");
+            }
+
+            List<Employee> employee2 = DataAccess.ReadActiveEmployees();
+            bsEmployees.DataSource = employee2;
+            gvEmployees.DataSource = bsEmployees;
+        }
+
+        private void txtSearchEmployee_TextChanged(object sender, EventArgs e)
+        {
+            //B bsEmployees.Filter = "LastName + ' ' + FirstName LIKE '%" + txtSearchEmployee.Text + "%'";
+            ReadEmployeesFromDb(txtSearchEmployee.Text);
+
         }
     }
 }

@@ -52,6 +52,9 @@ namespace ComputerStore
             gvProduct.Columns["MadeIn"].Visible = false;
             gvProduct.Columns["BuyFromCompany"].Visible = false;
             gvProduct.Columns["CellPhoneCompany"].Visible = false;
+            gvProduct.Columns["PriceProduct"].DefaultCellStyle.Format = "N2";
+            gvProduct.Columns["NameProduct"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gvProduct.Columns["PriceProduct"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void btnFirstProduct_Click(object sender, EventArgs e)

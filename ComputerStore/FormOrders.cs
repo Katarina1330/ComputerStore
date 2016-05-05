@@ -43,16 +43,6 @@ namespace ComputerStore
             }
         }
 
-        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         BindingSource bsOrderItems = new BindingSource();
         BindingSource bsOrders = new BindingSource();
 
@@ -65,6 +55,7 @@ namespace ComputerStore
 
             var colSelect = new DataGridViewCheckBoxColumn()
             {
+                Name = "Select",
                 HeaderText = "Select",
                 Width = 50
             };
@@ -72,6 +63,10 @@ namespace ComputerStore
             gvOrderItems.Columns["IdOrder"].Visible = false;
             gvOrderItems.Columns["IdProduct"].Visible = false;
             gvOrderItems.Columns["IdOrderItem"].Visible = false;
+            gvOrderItems.Columns["OrderItemPrice"].DefaultCellStyle.Format = "N2";
+            gvOrderItems.Columns["Quantity"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gvOrderItems.Columns["OrderItemPrice"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gvOrderItems.Columns["NameProduct"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             List<Order> orders;
             if (idEmployee == -1)
@@ -90,12 +85,14 @@ namespace ComputerStore
 
             var colSelect2 = new DataGridViewCheckBoxColumn()
             {
+                Name = "Select",
                 HeaderText = "Select",
                 Width = 50
             };
             gvOrders.Columns.Add(colSelect2);
             gvOrders.Columns["IdEmployee"].Visible = false;
             gvOrders.Columns["IdCustomer"].Visible = false;
+            gvOrders.Columns["PriceOrder"].DefaultCellStyle.Format = "N2";
         }
 
         private void BsOrders_CurrentChanged(object sender, EventArgs e)
@@ -106,13 +103,15 @@ namespace ComputerStore
 
             // uzmem id porudzbine (orderId) za current (trenutnu) por.
             // var order = (Order)gvOrders.CurrentRow.DataBoundItem;
-            var order = (Order)bsOrders.Current;
-           // MessageBox.Show(order.IdOrder.ToString());
+            if(bsOrders.Current != null)
+            {
+                var order = (Order)bsOrders.Current;
+                // MessageBox.Show(order.IdOrder.ToString());
 
-
-            List<OrderItem> orderItems = DataAccess.ReadOrderItemsForOneOrder(order.IdOrder);
-            bsOrderItems.DataSource = orderItems;
-            gvOrderItems.DataSource = bsOrderItems;
+                List<OrderItem> orderItems = DataAccess.ReadOrderItemsForOneOrder(order.IdOrder);
+                bsOrderItems.DataSource = orderItems;
+                gvOrderItems.DataSource = bsOrderItems;
+            }
         }
 
         private void btnFirstOrderItems_Click(object sender, EventArgs e)
@@ -222,6 +221,45 @@ namespace ComputerStore
         private void gvOrders_SelectionChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnDeleteOrders_Click(object sender, EventArgs e)
+        {
+            List<int> IDs = new List<int>();
+            List<int> indexsOrder = new List<int>();
+           // List<int> indexsOrderItem = new List<int>();
+            foreach (DataGridViewRow row in gvOrders.Rows)
+            {
+                DataGridViewCell selected = row.Cells["Select"];
+
+                if(selected.Value != null && (bool)selected.Value == true)
+                {
+                    DataGridViewCell idCells = row.Cells["IdOrder"];
+                    IDs.Add((int)idCells.Value);
+
+                    int idIndexOrder = row.Index;
+                    indexsOrder.Add(idIndexOrder);
+                }
+            }
+
+            //foreach (DataGridViewRow row in gvOrderItems.Rows)
+            //{
+            //    int idIndexOrderItem = row.Index;
+            //    indexsOrderItem.Add(idIndexOrderItem);
+            //}
+
+
+            DataAccess.DeleteOrder(IDs);
+
+            foreach (int idIndex in indexsOrder.OrderByDescending(p => p).ToList())
+            {
+                gvOrders.Rows.RemoveAt(idIndex);
+            }
+
+            //foreach (int idIndex in indexsOrderItem.OrderByDescending(p => p).ToList())
+            //{
+            //    gvOrderItems.Rows.RemoveAt(idIndex);
+            //}
         }
     }
 }

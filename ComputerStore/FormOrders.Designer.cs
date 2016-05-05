@@ -134,6 +134,7 @@ namespace ComputerStore
             this.btnDeleteOrders.TabIndex = 8;
             this.btnDeleteOrders.Text = "Delete";
             this.btnDeleteOrders.UseVisualStyleBackColor = true;
+            this.btnDeleteOrders.Click += new System.EventHandler(this.btnDeleteOrders_Click);
             // 
             // btnEditOrders
             // 
@@ -197,7 +198,6 @@ namespace ComputerStore
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(149, 20);
             this.dateTimePicker1.TabIndex = 15;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // dateTimePicker2
             // 

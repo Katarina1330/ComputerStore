@@ -21,5 +21,7 @@ namespace ComputerStore
         public string CellPhone { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+
+        public string EmployeeName { get; set; }
     }
 }
