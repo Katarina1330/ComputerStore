@@ -85,6 +85,7 @@ namespace ComputerStore
             this.txtSearchOrders.Name = "txtSearchOrders";
             this.txtSearchOrders.Size = new System.Drawing.Size(153, 20);
             this.txtSearchOrders.TabIndex = 3;
+            this.txtSearchOrders.TextChanged += new System.EventHandler(this.txtSearchOrders_TextChanged);
             // 
             // btnFirstOrders
             // 
@@ -198,6 +199,7 @@ namespace ComputerStore
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(149, 20);
             this.dateTimePicker1.TabIndex = 15;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // dateTimePicker2
             // 

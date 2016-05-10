@@ -35,6 +35,7 @@ namespace ComputerStore
             Employee employee = DataAccess.GetEmployeeById(idEmployee);
 
             txtIdEmployee.Text = Convert.ToString(employee.IdEmployee);
+            txtIdEmployee.ReadOnly = true;
             txtLastNameEdit.Text = employee.LastName;
             txtFirstNameEdit.Text = employee.firstName;
            
@@ -62,6 +63,7 @@ namespace ComputerStore
 
                 Employee employee = new Employee();
                 employee.IdEmployee = Convert.ToInt32(txtIdEmployee.Text);
+                txtIdEmployee.Enabled = false;
                 employee.LastName = txtLastNameEdit.Text;
                 employee.firstName = txtFirstNameEdit.Text;
                 //employee.TitleName = comboBoxTitleName.Text;

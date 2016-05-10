@@ -48,6 +48,48 @@ namespace ComputerStore
 
         private void FormOrders_Load(object sender, EventArgs e)
         {
+            ReadOrdersFromDb();
+        }
+
+        private void ReadOrdersFromDb(string opcioniParametar = null)
+        {
+            List<Order> orders = null;
+            if (opcioniParametar == null)
+            {
+                if (idEmployee == -1)
+                {
+                    orders = DataAccess.readAllOrders(); // sve porudzbine
+                }
+                else
+                {
+                    orders = DataAccess.readOrdersForEmployee(idEmployee); // por. za odabranog zap.
+                }
+
+            }
+            else
+            {
+                DataAccess.ReadOrdersSearch(opcioniParametar);
+            }
+
+            gvOrders.Columns.Clear();
+            bsOrders.DataSource = orders;
+            gvOrders.DataSource = bsOrders;
+            bsOrders.CurrentChanged += BsOrders_CurrentChanged;
+            BsOrders_CurrentChanged(this, EventArgs.Empty);
+
+            var colSelect2 = new DataGridViewCheckBoxColumn()
+            {
+                Name = "Select",
+                HeaderText = "Select",
+                Width = 50
+            };
+            gvOrders.Columns.Add(colSelect2);
+            gvOrders.Columns["IdEmployee"].Visible = false;
+            gvOrders.Columns["IdCustomer"].Visible = false;
+            gvOrders.Columns["PriceOrder"].DefaultCellStyle.Format = "N2";
+
+
+
             var orderItems = DataAccess.ReadAllOrderItems();
 
             bsOrderItems.DataSource = orderItems;
@@ -68,31 +110,7 @@ namespace ComputerStore
             gvOrderItems.Columns["OrderItemPrice"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             gvOrderItems.Columns["NameProduct"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            List<Order> orders;
-            if (idEmployee == -1)
-            {
-                orders = DataAccess.readAllOrders(); // sve porudzbine
-            }
-            else
-            {
-                orders = DataAccess.readOrdersForEmployee(idEmployee); // por. za odabranog zap.
-            }
-
-            bsOrders.DataSource = orders;
-            gvOrders.DataSource = bsOrders;
-            bsOrders.CurrentChanged += BsOrders_CurrentChanged;
-            BsOrders_CurrentChanged(this, EventArgs.Empty);
-
-            var colSelect2 = new DataGridViewCheckBoxColumn()
-            {
-                Name = "Select",
-                HeaderText = "Select",
-                Width = 50
-            };
-            gvOrders.Columns.Add(colSelect2);
-            gvOrders.Columns["IdEmployee"].Visible = false;
-            gvOrders.Columns["IdCustomer"].Visible = false;
-            gvOrders.Columns["PriceOrder"].DefaultCellStyle.Format = "N2";
+            
         }
 
         private void BsOrders_CurrentChanged(object sender, EventArgs e)
@@ -260,6 +278,16 @@ namespace ComputerStore
             //{
             //    gvOrderItems.Rows.RemoveAt(idIndex);
             //}
+        }
+
+        private void txtSearchOrders_TextChanged(object sender, EventArgs e)
+        {
+            ReadOrdersFromDb(txtSearchOrders.Text);
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            ReadOrdersFromDb(dateTimePicker1.Text);
         }
     }
 }

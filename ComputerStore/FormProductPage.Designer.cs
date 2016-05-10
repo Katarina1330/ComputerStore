@@ -61,6 +61,7 @@ namespace ComputerStore
             this.textSearchProduct.Name = "textSearchProduct";
             this.textSearchProduct.Size = new System.Drawing.Size(124, 20);
             this.textSearchProduct.TabIndex = 1;
+            this.textSearchProduct.TextChanged += new System.EventHandler(this.textSearchProduct_TextChanged);
             // 
             // gvProduct
             // 
@@ -130,6 +131,7 @@ namespace ComputerStore
             this.btnAddProduct.TabIndex = 8;
             this.btnAddProduct.Text = "Add";
             this.btnAddProduct.UseVisualStyleBackColor = true;
+            this.btnAddProduct.Click += new System.EventHandler(this.btnAddProduct_Click);
             // 
             // btnDetails
             // 
@@ -149,6 +151,7 @@ namespace ComputerStore
             this.btnEditProduct.TabIndex = 10;
             this.btnEditProduct.Text = "Edit";
             this.btnEditProduct.UseVisualStyleBackColor = true;
+            this.btnEditProduct.Click += new System.EventHandler(this.btnEditProduct_Click);
             // 
             // btnDeleteProduct
             // 

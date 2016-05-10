@@ -35,7 +35,18 @@ namespace ComputerStore
 
         private void Product_Page_Load(object sender, EventArgs e)
         {
-            var products = DataAccess.ReadAllProduct(false);
+            ReadProductFromDb();
+        }
+
+        private void ReadProductFromDb(string opcioniParametar = null)
+        {
+            List<Product> products = null;
+            if (opcioniParametar == null)
+                products = DataAccess.ReadAllProduct(false);
+            else
+                products = DataAccess.ReadProductSearch(opcioniParametar);
+
+            gvProduct.Columns.Clear();
             bsProducts.DataSource = products;
             gvProduct.DataSource = bsProducts;
 
@@ -166,6 +177,45 @@ namespace ComputerStore
         private void btnDetails_Click(object sender, EventArgs e)
         {
             new FormDetailsProduct().ShowDialog();
+
+            List<Product> product = DataAccess.ReadAllProduct(false);
+            bsProducts.DataSource = product;
+            gvProduct.DataSource = bsProducts;
+        }
+
+        private void textSearchProduct_TextChanged(object sender, EventArgs e)
+        {
+            ReadProductFromDb(textSearchProduct.Text);
+        }
+
+        private void btnEditProduct_Click(object sender, EventArgs e)
+        {
+           if(gvProduct.CurrentRow != null)
+            {
+                Object obj = gvProduct.CurrentRow.DataBoundItem;
+                Product product = (Product)obj;
+
+                FormEditProduct frm = new FormEditProduct(product.IdProduct, product.NameProduct);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate odabrati neki proizvod.");
+            }
+
+            List<Product> product2 = DataAccess.ReadAllProduct(false);
+            bsProducts.DataSource = product2;
+            gvProduct.DataSource = bsProducts;
+        }
+
+        private void btnAddProduct_Click(object sender, EventArgs e)
+        {
+            FormAddProduct frm = new FormAddProduct();
+            frm.ShowDialog();
+
+            List<Product> products = DataAccess.ReadAllProduct(false);
+            bsProducts.DataSource = products;
+            gvProduct.DataSource = bsProducts;
         }
     }
 }

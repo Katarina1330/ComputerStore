@@ -9,15 +9,15 @@ namespace ComputerStore
 {
     public class DataAccess
     {
-
         public static List<Title> ReadAllTitle()
         {
             List<Title> titles = new List<Title>();
+            SqlConnection conn = new SqlConnection(
+                          Properties.Settings.Default.ComputerStoreConnectionString);
             try
             {
-                SqlConnection conn = new SqlConnection(
-                                        Properties.Settings.Default.ComputerStoreConnectionString);
-                                        conn.Open();
+                
+                conn.Open();
 
                 SqlCommand cmd = new SqlCommand("select * from Titles", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -34,6 +34,10 @@ namespace ComputerStore
             catch (Exception ex)
             {
                 throw;
+            }
+            finally
+            {
+                conn.Close();
             }
             return titles;
         }
@@ -80,6 +84,94 @@ namespace ComputerStore
             }
 
             return employees;
+        }
+
+        // Treba popraviti!
+        public static List<Order> ReadOrdersSearch(string filter)
+        {
+            List<Order> orders = new List<Order>();
+            SqlConnection conn = new SqlConnection(
+               Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Orders.IdOrder, Orders.DateOrder, Orders.CashRegister, Orders.PriceOrder, Orders.IdEmployee, Orders.IdCustomer, Orders.Details, Employees.LastName, Employees.FirstName, Customers.LastNameCustomer, Customers.FirstNameCustomer " +
+                    " FROM Orders " + 
+                    " INNER JOIN Employees ON Employees.IdEmployee = Orders.IdEmployee " + 
+                    " INNER JOIN Customers ON Customers.IdCustomer = Orders.IdCustomer " +
+                    " Where  Customers.LastNameCustomer + ' ' + Customers.FirstNameCustomer Like '" + filter + "%' or Employees.FirstName + ' ' + Employees.LastName Like '" + filter + "%'", conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read() == true)
+                {
+                    Order order = new Order();
+                    order.IdOrder = (int)reader["IdOrder"];
+                    order.DateOrder = (DateTime)reader["DateOrder"];
+                    order.CashRegister = (int)reader["CashRegister"];
+                    order.PriceOrder = (decimal)reader["PriceOrder"];
+                    order.IdEmployee = (int)reader["IdEmployee"];
+                    order.Details = Convert.ToString(reader["Details"]);
+                    order.IdCustomer = (int)reader["IdCustomer"];
+
+                    order.EmployeeName = (string)reader["LastName"] + " " + (string)reader["FirstName"];
+                    order.CustomerName = (string)reader["LastNameCustomer"] + " " + (string)reader["FirstNameCustomer"];
+
+                    orders.Add(order);
+                }
+                reader.Close();
+            }
+
+            catch 
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return orders;
+        }
+
+        public static List<Product> ReadProductSearch(string filter)
+        {
+            List<Product> products = new List<Product>();
+            try
+            {
+                SqlConnection connection = new SqlConnection(
+                    Properties.Settings.Default.ComputerStoreConnectionString);
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("select * from product  where InStore = 1 AND NameProduct LIKE '" + filter + "%' ", connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read() == true)
+                {
+                    Product product = new Product();
+                    product.IdProduct = (int)reader["IdProduct"];
+                    product.NameProduct = (string)reader["NameProduct"];
+                    product.PriceProduct = (decimal)reader["PriceProduct"];
+                    product.Description = Convert.ToString(reader["Description"]);
+                    product.Brand = Convert.ToString(reader["Brand"]);
+                    product.InStore = (bool)reader["InStore"];
+
+                    product.MadeIn = Convert.ToString(reader["MadeIn"]);
+                    product.BuyFromCompany = Convert.ToString(reader["BuyFromCompany"]);
+                    product.CellPhoneCompany = Convert.ToString(reader["CellPhoneCompany"]);
+
+                    products.Add(product);
+                }
+                reader.Close();
+
+                connection.Close();
+            }
+            catch
+            {
+                throw;
+            }
+
+            return products;
+            
         }
 
        /// <summary>
@@ -167,6 +259,28 @@ namespace ComputerStore
            
         }
 
+        public static void EditProduct(Product product)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("update Product set NameProduct = '" + product.NameProduct + "', PriceProduct = '" + product.PriceProduct + 
+                    "', Description = '" + product.Description + "', Brand = '" + product.Brand + "', InStore = 1 , MadeIn = '" + product.MadeIn + 
+                    "', BuyFromCompany = '" + product.BuyFromCompany + "', CellPhoneCompany = '" + product.CellPhoneCompany + "' where IdProduct = " + product.IdProduct, connection);
+                command.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
         public static void EditEmployee(Employee employee)
         {
             SqlConnection conn = new SqlConnection(
@@ -191,6 +305,44 @@ namespace ComputerStore
                 conn.Close();
             }
 
+        }
+
+        public static Product GetProductById(int idProduct)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            Product product = new Product();
+            try
+            {
+
+                connection.Open();
+                SqlCommand command = new SqlCommand(" select * from Product where IdProduct = " + idProduct, connection);
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read() == true)
+                {
+                    product.IdProduct = Convert.ToInt32(reader["IdProduct"]);
+                    product.NameProduct = (string)reader["NameProduct"];
+                    product.PriceProduct = (decimal)reader["PriceProduct"];
+                    product.Description = Convert.ToString(reader["Description"]);
+                    product.Brand = Convert.ToString(reader["Brand"]);
+                    product.InStore = (bool)reader["InStore"];
+                    product.MadeIn = Convert.ToString(reader["MadeIn"]);
+                    product.BuyFromCompany = Convert.ToString(reader["BuyFromCompany"]);
+                    product.CellPhoneCompany = Convert.ToString(reader["CellPhoneCompany"]);
+                }
+                reader.Close();   
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return product;
         }
 
         public static Employee GetEmployeeById(int idEmployee)
@@ -551,6 +703,29 @@ namespace ComputerStore
             }
         }
 
+        public static void InsertProduct(Product product)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("insert into Product(NameProduct, PriceProduct, Description, Brand, InStore, MadeIn, BuyFromCompany, CellPhoneCompany)" 
+                    + " values('" + product.NameProduct + "', " + product.PriceProduct + ", '" + product.Description + "', '" + product.Brand + "', 1, '" + product.BuyFromCompany + "', '" + product.MadeIn + "', '" + product.CellPhoneCompany + "')", connection);
+
+                command.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
         public static int InsertOrderItem(OrderItem orderItem)
         {
             //insert into OrderItems(IdOrder, IdProduct, Quantity, OrderItemPrice)
@@ -697,6 +872,28 @@ namespace ComputerStore
             catch (Exception ex)
             {
                 // Console.WriteLine("greska: " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public static void ProductInStore(List<int> IDs)
+        {
+            SqlConnection conn = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                conn.Open();
+                string filter = string.Join(", ", IDs);
+                SqlCommand cmd = new SqlCommand("UPDATE Product SET InStore = 1 where IdProduct IN ("
+                     + filter + ")", conn);
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
             }
             finally
             {
