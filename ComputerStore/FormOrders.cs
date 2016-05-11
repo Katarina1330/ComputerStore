@@ -54,7 +54,7 @@ namespace ComputerStore
         private void ReadOrdersFromDb(string opcioniParametar = null)
         {
             List<Order> orders = null;
-            if (opcioniParametar == null)
+            if (string.IsNullOrWhiteSpace(opcioniParametar))
             {
                 if (idEmployee == -1)
                 {
@@ -68,7 +68,7 @@ namespace ComputerStore
             }
             else
             {
-                DataAccess.ReadOrdersSearch(opcioniParametar);
+               orders = DataAccess.ReadOrdersSearch(opcioniParametar);
             }
 
             gvOrders.Columns.Clear();
@@ -76,7 +76,7 @@ namespace ComputerStore
             gvOrders.DataSource = bsOrders;
             bsOrders.CurrentChanged += BsOrders_CurrentChanged;
             BsOrders_CurrentChanged(this, EventArgs.Empty);
-
+            
             var colSelect2 = new DataGridViewCheckBoxColumn()
             {
                 Name = "Select",
@@ -91,7 +91,7 @@ namespace ComputerStore
 
 
             var orderItems = DataAccess.ReadAllOrderItems();
-
+            gvOrderItems.Columns.Clear();
             bsOrderItems.DataSource = orderItems;
             gvOrderItems.DataSource = bsOrderItems;
 
@@ -285,9 +285,32 @@ namespace ComputerStore
             ReadOrdersFromDb(txtSearchOrders.Text);
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        private void btnEditOrders_Click(object sender, EventArgs e)
         {
-            ReadOrdersFromDb(dateTimePicker1.Text);
+            if(gvOrders.CurrentRow != null)
+            {
+                Object obj = gvOrders.CurrentRow.DataBoundItem;
+                Order order = (Order)obj;
+
+                FormEditOrder frm = new FormEditOrder(order.IdOrder);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate odabrati nkog zaposlenog.");
+            }
+
+            List<Order> orders;
+            if (idEmployee == -1)
+            {
+                orders = DataAccess.readAllOrders(); // sve porudzbine
+            }
+            else
+            {
+                orders = DataAccess.readOrdersForEmployee(idEmployee); // por. za odabranog zap.
+            }
+            bsOrders.DataSource = orders;
+            gvOrders.DataSource = bsOrders;
         }
     }
 }

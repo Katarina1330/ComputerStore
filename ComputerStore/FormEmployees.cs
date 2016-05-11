@@ -247,8 +247,8 @@ namespace ComputerStore
                 MessageBox.Show("Morate odabrati nkog zaposlenog.");
             }
 
-            List<Employee> employee2 = DataAccess.ReadActiveEmployees();
-            bsEmployees.DataSource = employee2;
+            List<Employee> employees = DataAccess.ReadActiveEmployees();
+            bsEmployees.DataSource = employees;
             gvEmployees.DataSource = bsEmployees;
         }
 

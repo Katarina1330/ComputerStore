@@ -12,5 +12,7 @@ namespace ComputerStore
         public string FirstNameCustomer { get; set; }
         public string LastNameCustomer { get; set;}
         public string ID { get; set; }
+
+        public string NameCustomer { get; set; }
     }
 }

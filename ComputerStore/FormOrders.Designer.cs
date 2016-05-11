@@ -145,6 +145,7 @@ namespace ComputerStore
             this.btnEditOrders.TabIndex = 9;
             this.btnEditOrders.Text = "Edit";
             this.btnEditOrders.UseVisualStyleBackColor = true;
+            this.btnEditOrders.Click += new System.EventHandler(this.btnEditOrders_Click);
             // 
             // btnDetailsOrders
             // 
@@ -199,7 +200,6 @@ namespace ComputerStore
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(149, 20);
             this.dateTimePicker1.TabIndex = 15;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // dateTimePicker2
             // 

@@ -56,7 +56,6 @@ namespace ComputerStore
         {
             try
             {
-               
                 Title title = new Title();
                 title.TitleName = comboBoxTitleName.Text;
                 title.IdTitle = DataAccess.GetIdTitle(title);

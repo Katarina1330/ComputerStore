@@ -86,7 +86,6 @@ namespace ComputerStore
             return employees;
         }
 
-        // Treba popraviti!
         public static List<Order> ReadOrdersSearch(string filter)
         {
             List<Order> orders = new List<Order>();
@@ -224,6 +223,54 @@ namespace ComputerStore
             return employees;
         }
 
+        public static void UpdateCustomer(Customer customer)
+        {
+            SqlConnection connection = new SqlConnection(
+               Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("update Customers set Customers.LastNameCustomer = '" + customer.LastNameCustomer + "', Customers.FirstNameCustomer = '" + customer.FirstNameCustomer + "' where IdCustomer = " + customer.IdCustomer  , connection);
+
+                command.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
+
+        public static int GetIdEmployee(Employee employee)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("select idEmployee from Employees where Employees.LastName + ' ' + Employees.FirstName = '" + employee.EmployeeName + "' ", connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while(reader.Read() == true)
+                {
+                    employee.IdEmployee = (int)reader["idEmployee"];
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return employee.IdEmployee;
+        }
+
         public static int GetIdTitle(Title title)
         {
             SqlConnection conn = new SqlConnection(
@@ -281,6 +328,31 @@ namespace ComputerStore
             }
         }
 
+        public static void EditOrder(Order order)
+        {
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+
+            try
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand("update Orders set Details = '" + order.Details + "', IdEmployee = " + order.IdEmployee + ", IdCustomer = " + order.IdCustomer +
+                                ", PriceOrder = '" + order.PriceOrder + "', CashRegister = " + order.CashRegister + ", DateOrder = '" + order.DateOrder + "' where IdOrder = " + order.IdOrder , conn);
+                cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+        }
+
         public static void EditEmployee(Employee employee)
         {
             SqlConnection conn = new SqlConnection(
@@ -305,6 +377,46 @@ namespace ComputerStore
                 conn.Close();
             }
 
+        }
+
+        public static Order GetOrderById(int idOrder)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            Order order = new Order();
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("select * from Orders inner join Employees on Orders.IdEmployee = Employees.IdEmployee " 
+                    + " inner join Customers on Orders.IdCustomer = Customers.IdCustomer where IdOrder = " + idOrder, connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while(reader.Read() == true)
+                {
+
+                    order.IdOrder = (int)reader["IdOrder"];
+                    order.DateOrder = (DateTime)reader["DateOrder"];
+                    order.CashRegister = (int)reader["CashRegister"];
+                    order.PriceOrder = (decimal)reader["PriceOrder"];
+                    order.Details = Convert.ToString(reader["Details"]);
+                    order.IdCustomer = (int)reader["IdCustomer"];
+                    order.IdEmployee = (int)reader["IdEmployee"];
+
+                    order.EmployeeName = (string)reader["LastName"] + ' ' + (string)reader["FirstName"];
+                    order.CustomerName = (string)reader["LastNameCustomer"] + ' ' + (string)reader["FirstNameCustomer"];
+                    
+                }
+                reader.Close();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return order;
         }
 
         public static Product GetProductById(int idProduct)
