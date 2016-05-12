@@ -152,16 +152,6 @@ namespace ComputerStore
             bsOrderItems.MoveLast();
         }
 
-        private void btnDeleteOrderItems_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void gvOrders_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void btnFirstOrders_Click(object sender, EventArgs e)
         {
             bsOrders.MoveFirst();
@@ -331,7 +321,7 @@ namespace ComputerStore
             var orderItems = DataAccess.ReadAllOrderItems();
             bsOrderItems.DataSource = orderItems;
             gvOrderItems.DataSource = bsOrderItems;
-
+               
             List<Order> orders;
             if (idEmployee == -1)
             {
@@ -344,6 +334,50 @@ namespace ComputerStore
             bsOrders.DataSource = orders;
             gvOrders.DataSource = bsOrders;
 
+        }
+
+        private void btnDeleteOrderItems_Click(object sender, EventArgs e)
+        {
+            List<int> IDsOrderItem = new List<int>();
+            List<int> IDsOrder = new List<int>();
+
+
+            List<int> indexsOrderItem = new List<int>();
+
+            foreach (DataGridViewRow row in gvOrderItems.Rows)
+            {
+                DataGridViewCell selected = row.Cells["Select"];
+
+                if (selected.Value != null && (bool)selected.Value == true)
+                {
+                    DataGridViewCell idCellOrderItem = row.Cells["IdOrderItem"];
+                    IDsOrderItem.Add((int)idCellOrderItem.Value);
+
+                    DataGridViewCell idCellOrder = row.Cells["IdOrder"];
+                    IDsOrder.Add((int)idCellOrder.Value);
+
+                    int index = row.Index;
+                    indexsOrderItem.Add(index);
+                }
+            }
+
+            OrderItem orderItem = DataAccess.GetOrderItemByIDs(IDsOrderItem);
+
+            Order order = DataAccess.GetOrderByIDs(IDsOrder);
+            Decimal nowPriceOrder;
+            nowPriceOrder = order.PriceOrder - orderItem.OrderItemPrice;
+
+            DataAccess.UpdateOrderPrice(order.IdOrder, nowPriceOrder);
+            List<Order> orders = DataAccess.readAllOrders();
+            bsOrders.DataSource = orders;
+            gvOrders.DataSource = bsOrders;
+
+
+             DataAccess.DeleteOrderItem(IDsOrderItem);
+            foreach (int index in indexsOrderItem.OrderByDescending(p => p).ToList())
+            {
+                gvOrderItems.Rows.RemoveAt(index);
+            }
         }
     }
 }

@@ -870,6 +870,98 @@ namespace ComputerStore
             }
         }
 
+        public static OrderItem GetOrderItemByIDs(List<int> IDs)
+        {
+            SqlConnection conn = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            OrderItem orderItem = new OrderItem();
+            try
+            {
+
+                conn.Open();
+                var filter = string.Join(", ", IDs);
+                SqlCommand command = new SqlCommand("select * from OrderItems where IdOrderItem in (" + filter + ")", conn);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read() == true)
+                {
+                    orderItem.IdOrderItem = (int)reader["IdOrderItem"];
+                    orderItem.IdOrder = (int)reader["IdOrder"];
+                    orderItem.IdProduct = (int)reader["IdProduct"];
+                    orderItem.Quantity = (int)reader["Quantity"];
+                    orderItem.OrderItemPrice = (decimal)reader["OrderItemPrice"];
+
+                }
+
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return orderItem;
+        }
+
+        public static Order GetOrderByIDs(List<int> IDs)
+        {
+            SqlConnection conn = new SqlConnection(
+                 Properties.Settings.Default.ComputerStoreConnectionString);
+            Order order = new Order();
+            try
+            {
+                conn.Open();
+                var filter = string.Join(", ", IDs);
+                SqlCommand command = new SqlCommand("select * from Orders where IdOrder in (" + filter + ")", conn);
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read() == true)
+                {
+                    order.IdOrder = (int)reader["IdOrder"];
+                    order.DateOrder = (DateTime)reader["DateOrder"];
+                    order.CashRegister = (int)reader["CashRegister"];
+                    order.PriceOrder = (decimal)reader["PriceOrder"];
+                    order.IdEmployee = (int)reader["IdEmployee"];
+                    order.Details = Convert.ToString(reader["Details"]);
+                    order.IdCustomer = (int)reader["IdCustomer"];
+                }
+
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return order;
+        }
+
+        public static void DeleteOrderItem(List<int> IDs)
+        {
+            SqlConnection conn = new SqlConnection(
+                  Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                conn.Open();
+                var filter = string.Join(", ", IDs);
+                SqlCommand command = new SqlCommand("delete from OrderItems where IdOrderItem IN (" + filter + " )", conn);
+
+                command.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
         public static void DeleteOrder(List<int> IDs)
         {
             SqlConnection conn = new SqlConnection(
@@ -885,7 +977,7 @@ namespace ComputerStore
                 cmd.ExecuteNonQuery();
 
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }

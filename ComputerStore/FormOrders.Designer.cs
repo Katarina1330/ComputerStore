@@ -65,7 +65,6 @@ namespace ComputerStore
             this.gvOrders.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvOrders.Size = new System.Drawing.Size(630, 148);
             this.gvOrders.TabIndex = 0;
-            this.gvOrders.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gvOrders_CellContentClick);
             this.gvOrders.SelectionChanged += new System.EventHandler(this.gvOrders_SelectionChanged);
             // 
             // label1
