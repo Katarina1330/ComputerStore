@@ -36,7 +36,6 @@ namespace ComputerStore
             txtCashRegister.Text = Convert.ToString(order.CashRegister);
             txtCashRegister.ReadOnly = true;
             txtPriceOrder.Text = Convert.ToString(order.PriceOrder);
-            txtPriceOrder.ReadOnly = true;
             txtDetails.Text = order.Details;
             txtNameCustomer.Text = order.CustomerName;
             idCustomer = order.IdCustomer;
@@ -63,6 +62,10 @@ namespace ComputerStore
                     customer.FirstNameCustomer = delovi[1];
                     customer.IdCustomer = idCustomer;
                     DataAccess.UpdateCustomer(customer);
+                }
+                else
+                {
+                    MessageBox.Show("Morate uneti ime, prez za customera.");
                 }
 
                 Employee employee = new Employee();

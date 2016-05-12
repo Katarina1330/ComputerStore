@@ -39,7 +39,6 @@ namespace ComputerStore
             this.btnLastOrders = new System.Windows.Forms.Button();
             this.btnDeleteOrders = new System.Windows.Forms.Button();
             this.btnEditOrders = new System.Windows.Forms.Button();
-            this.btnDetailsOrders = new System.Windows.Forms.Button();
             this.btnShowProductsOrders = new System.Windows.Forms.Button();
             this.btnShowEmployeesOrders = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,7 +52,6 @@ namespace ComputerStore
             this.btnLastOrderItems = new System.Windows.Forms.Button();
             this.btnDeleteOrderItems = new System.Windows.Forms.Button();
             this.btnEditOrderItems = new System.Windows.Forms.Button();
-            this.btnDetailsOrderItems = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrders)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrderItems)).BeginInit();
             this.SuspendLayout();
@@ -146,15 +144,6 @@ namespace ComputerStore
             this.btnEditOrders.Text = "Edit";
             this.btnEditOrders.UseVisualStyleBackColor = true;
             this.btnEditOrders.Click += new System.EventHandler(this.btnEditOrders_Click);
-            // 
-            // btnDetailsOrders
-            // 
-            this.btnDetailsOrders.Location = new System.Drawing.Point(567, 243);
-            this.btnDetailsOrders.Name = "btnDetailsOrders";
-            this.btnDetailsOrders.Size = new System.Drawing.Size(75, 23);
-            this.btnDetailsOrders.TabIndex = 10;
-            this.btnDetailsOrders.Text = "Details";
-            this.btnDetailsOrders.UseVisualStyleBackColor = true;
             // 
             // btnShowProductsOrders
             // 
@@ -276,22 +265,13 @@ namespace ComputerStore
             this.btnEditOrderItems.TabIndex = 23;
             this.btnEditOrderItems.Text = "Edit";
             this.btnEditOrderItems.UseVisualStyleBackColor = true;
-            // 
-            // btnDetailsOrderItems
-            // 
-            this.btnDetailsOrderItems.Location = new System.Drawing.Point(564, 443);
-            this.btnDetailsOrderItems.Name = "btnDetailsOrderItems";
-            this.btnDetailsOrderItems.Size = new System.Drawing.Size(75, 23);
-            this.btnDetailsOrderItems.TabIndex = 24;
-            this.btnDetailsOrderItems.Text = "Details";
-            this.btnDetailsOrderItems.UseVisualStyleBackColor = true;
+            this.btnEditOrderItems.Click += new System.EventHandler(this.btnEditOrderItems_Click);
             // 
             // FormOrders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 496);
-            this.Controls.Add(this.btnDetailsOrderItems);
             this.Controls.Add(this.btnEditOrderItems);
             this.Controls.Add(this.btnDeleteOrderItems);
             this.Controls.Add(this.btnLastOrderItems);
@@ -305,7 +285,6 @@ namespace ComputerStore
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnShowEmployeesOrders);
             this.Controls.Add(this.btnShowProductsOrders);
-            this.Controls.Add(this.btnDetailsOrders);
             this.Controls.Add(this.btnEditOrders);
             this.Controls.Add(this.btnDeleteOrders);
             this.Controls.Add(this.btnLastOrders);
@@ -337,7 +316,6 @@ namespace ComputerStore
         private System.Windows.Forms.Button btnLastOrders;
         private System.Windows.Forms.Button btnDeleteOrders;
         private System.Windows.Forms.Button btnEditOrders;
-        private System.Windows.Forms.Button btnDetailsOrders;
         private System.Windows.Forms.Button btnShowProductsOrders;
         private System.Windows.Forms.Button btnShowEmployeesOrders;
         private System.Windows.Forms.Label label2;
@@ -351,6 +329,5 @@ namespace ComputerStore
         private Button btnLastOrderItems;
         private Button btnDeleteOrderItems;
         private Button btnEditOrderItems;
-        private Button btnDetailsOrderItems;
     }
 }

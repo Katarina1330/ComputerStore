@@ -245,6 +245,33 @@ namespace ComputerStore
 
         }
 
+        public static int GetIdProduct(Product product)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("select idProduct from Product where NameProduct = '" + product.NameProduct + "'" , connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read() == true)
+                {
+                    product.IdProduct = (int)reader["idProduct"];
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return product.IdProduct;
+        }
+
         public static int GetIdEmployee(Employee employee)
         {
             SqlConnection connection = new SqlConnection(
@@ -304,6 +331,27 @@ namespace ComputerStore
 
             return title.IdTitle;
            
+        }
+
+        public static void EditOrderItem(OrderItem orderItem)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("update OrderItems set Quantity = " + orderItem.Quantity + ", OrderItemPrice = " + orderItem.OrderItemPrice + ", IdProduct = " + orderItem.IdProduct + " where IdOrderItem = " + orderItem.IdOrderItem , connection);
+
+                command.ExecuteNonQuery();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public static void EditProduct(Product product)
@@ -377,6 +425,38 @@ namespace ComputerStore
                 conn.Close();
             }
 
+        }
+
+        public static OrderItem GetOrderItemById(int idOrderItem)
+        {
+            SqlConnection connection = new SqlConnection(
+                Properties.Settings.Default.ComputerStoreConnectionString);
+            OrderItem orderItem = new OrderItem();
+            try
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("select OrderItems.IdOrder, OrderItems.IdProduct, OrderItems.Quantity, OrderItems.OrderItemPrice, Product.NameProduct " 
+                    + " from OrderItems inner join Product on OrderItems.IdProduct = Product.IdProduct where IdOrderItem = " + idOrderItem, connection);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while(reader.Read() == true)
+                {
+                    orderItem.IdOrder = (int) reader["IdOrder"];
+                    orderItem.IdProduct = (int)reader["IdProduct"];
+                    orderItem.Quantity = (int)reader["Quantity"];
+                    orderItem.OrderItemPrice = (decimal)reader["OrderItemPrice"];
+                    orderItem.NameProduct = (string)reader["NameProduct"];
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return orderItem;
         }
 
         public static Order GetOrderById(int idOrder)

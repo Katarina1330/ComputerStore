@@ -312,5 +312,38 @@ namespace ComputerStore
             bsOrders.DataSource = orders;
             gvOrders.DataSource = bsOrders;
         }
+
+        private void btnEditOrderItems_Click(object sender, EventArgs e)
+        {
+            if(gvOrderItems.CurrentRow != null)
+            {
+               Object obj = gvOrderItems.CurrentRow.DataBoundItem;
+                OrderItem orderItem = (OrderItem)obj;
+
+                FormEditOrderItem frm = new FormEditOrderItem(orderItem.IdOrderItem);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate odabrati nkog zaposlenog.");
+            }
+
+            var orderItems = DataAccess.ReadAllOrderItems();
+            bsOrderItems.DataSource = orderItems;
+            gvOrderItems.DataSource = bsOrderItems;
+
+            List<Order> orders;
+            if (idEmployee == -1)
+            {
+                orders = DataAccess.readAllOrders(); // sve porudzbine
+            }
+            else
+            {
+                orders = DataAccess.readOrdersForEmployee(idEmployee); // por. za odabranog zap.
+            }
+            bsOrders.DataSource = orders;
+            gvOrders.DataSource = bsOrders;
+
+        }
     }
 }
