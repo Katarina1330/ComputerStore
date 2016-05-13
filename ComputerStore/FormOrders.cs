@@ -379,5 +379,27 @@ namespace ComputerStore
                 gvOrderItems.Rows.RemoveAt(index);
             }
         }
+
+        private void btnAddOrderItem_Click(object sender, EventArgs e)
+        {
+            if(gvOrders.CurrentRow != null)
+            {
+                Object obj = gvOrders.CurrentRow.DataBoundItem;
+                Order order = (Order)obj;
+
+                FormAddOrderItem frm = new FormAddOrderItem(order.IdOrder);
+                frm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Morate odabrati nkog zaposlenog.");
+            }
+
+            List<Order> orders = DataAccess.readAllOrders();
+            bsOrders.DataSource = orders;
+            gvOrders.DataSource = bsOrders;
+
+
+        }
     }
 }

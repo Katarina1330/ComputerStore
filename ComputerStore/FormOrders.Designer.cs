@@ -52,6 +52,7 @@ namespace ComputerStore
             this.btnLastOrderItems = new System.Windows.Forms.Button();
             this.btnDeleteOrderItems = new System.Windows.Forms.Button();
             this.btnEditOrderItems = new System.Windows.Forms.Button();
+            this.btnAddOrderItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrders)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gvOrderItems)).BeginInit();
             this.SuspendLayout();
@@ -118,7 +119,7 @@ namespace ComputerStore
             // 
             this.btnLastOrders.Location = new System.Drawing.Point(567, 205);
             this.btnLastOrders.Name = "btnLastOrders";
-            this.btnLastOrders.Size = new System.Drawing.Size(75, 23);
+            this.btnLastOrders.Size = new System.Drawing.Size(85, 23);
             this.btnLastOrders.TabIndex = 7;
             this.btnLastOrders.Text = "Last";
             this.btnLastOrders.UseVisualStyleBackColor = true;
@@ -240,7 +241,7 @@ namespace ComputerStore
             // 
             this.btnLastOrderItems.Location = new System.Drawing.Point(567, 400);
             this.btnLastOrderItems.Name = "btnLastOrderItems";
-            this.btnLastOrderItems.Size = new System.Drawing.Size(75, 23);
+            this.btnLastOrderItems.Size = new System.Drawing.Size(85, 23);
             this.btnLastOrderItems.TabIndex = 21;
             this.btnLastOrderItems.Text = "Last";
             this.btnLastOrderItems.UseVisualStyleBackColor = true;
@@ -266,11 +267,22 @@ namespace ComputerStore
             this.btnEditOrderItems.UseVisualStyleBackColor = true;
             this.btnEditOrderItems.Click += new System.EventHandler(this.btnEditOrderItems_Click);
             // 
+            // btnAddOrderItem
+            // 
+            this.btnAddOrderItem.Location = new System.Drawing.Point(567, 244);
+            this.btnAddOrderItem.Name = "btnAddOrderItem";
+            this.btnAddOrderItem.Size = new System.Drawing.Size(85, 23);
+            this.btnAddOrderItem.TabIndex = 24;
+            this.btnAddOrderItem.Text = "Add OrderItem";
+            this.btnAddOrderItem.UseVisualStyleBackColor = true;
+            this.btnAddOrderItem.Click += new System.EventHandler(this.btnAddOrderItem_Click);
+            // 
             // FormOrders
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 496);
+            this.Controls.Add(this.btnAddOrderItem);
             this.Controls.Add(this.btnEditOrderItems);
             this.Controls.Add(this.btnDeleteOrderItems);
             this.Controls.Add(this.btnLastOrderItems);
@@ -328,5 +340,6 @@ namespace ComputerStore
         private Button btnLastOrderItems;
         private Button btnDeleteOrderItems;
         private Button btnEditOrderItems;
+        private Button btnAddOrderItem;
     }
 }

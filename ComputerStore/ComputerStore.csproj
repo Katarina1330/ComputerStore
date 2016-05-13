@@ -60,6 +60,12 @@
     <Compile Include="FormAddOrder.Designer.cs">
       <DependentUpon>FormAddOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAddOrderItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddOrderItem.Designer.cs">
+      <DependentUpon>FormAddOrderItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAddProduct.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +140,9 @@
     <Compile Include="Title.cs" />
     <EmbeddedResource Include="FormAddOrder.resx">
       <DependentUpon>FormAddOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAddOrderItem.resx">
+      <DependentUpon>FormAddOrderItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAddProduct.resx">
       <DependentUpon>FormAddProduct.cs</DependentUpon>
