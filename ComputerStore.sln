@@ -5,6 +5,15 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerStore", "ComputerStore\ComputerStore.csproj", "{04071FD9-0109-4C4C-8077-ED627CA9DC04}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBscript", "DBscript", "{F6D1D30B-E4E9-45A8-9783-9495472ACC56}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\ComputerStore.bak = ..\..\..\ComputerStore.bak
+		..\ComputerStore.MVC.zip = ..\ComputerStore.MVC.zip
+		..\..\..\ComputerStore.sql = ..\..\..\ComputerStore.sql
+		..\..\..\ComputerStoreMVS.bak = ..\..\..\ComputerStoreMVS.bak
+		..\..\..\ComputerStoreMVS.sql = ..\..\..\ComputerStoreMVS.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
