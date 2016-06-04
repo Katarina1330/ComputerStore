@@ -186,6 +186,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="DatabaseScripts\ComputerStore.bak" />
+    <None Include="DatabaseScripts\ComputerStore.MVC.zip" />
+    <None Include="DatabaseScripts\ComputerStoreMVS.bak" />
     <None Include="DsComputerStore.xsc">
       <DependentUpon>DsComputerStore.xsd</DependentUpon>
     </None>
@@ -209,6 +212,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatabaseScripts\ComputerStore.sql" />
+    <Content Include="DatabaseScripts\ComputerStoreMVS.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
